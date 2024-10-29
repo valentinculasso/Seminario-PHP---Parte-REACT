@@ -1,0 +1,18 @@
+.navbar {
+    display: flex;                /* Utiliza flexbox para alinear los enlaces en una fila */
+    justify-content: center;      /* Centra los enlaces horizontalmente */
+    gap: 15px;                    /* Espacio entre los enlaces */
+    padding: 10px;               /* Espaciado interno de la navbar */
+    background-color: #282c34;  /* Color de fondo de la navbar */
+  }
+  
+  .nav-link {
+    text-decoration: none;       /* Quita el subrayado de los enlaces */
+    color: white;              /* Color del texto de los enlaces */
+    font-size: 16px;             /* Tamaño de fuente para los enlaces */
+    padding: 20px 100px;           /* Espaciado interno alrededor del texto */
+  }
+  
+  .nav-link:hover {
+    color: blue;              /* Cambia el color del texto al pasar el mouse */
+  }
