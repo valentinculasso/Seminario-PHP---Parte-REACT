@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../assets/styles/loginPage.css'; // Asegúrate de tener un archivo de estilos
+import './LoginPage.css'; // Asegúrate de tener un archivo de estilos
 
 function LoginPage({ setUser }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const handleLogin = async (e) => {
+    // async (e), esto se refiere a que una función manejadora de eventos
+    /* 
+    async: Hace que la función sea asincrónica, lo que permite usar await dentro de ella para esperar la resolución de promesas (como una solicitud HTTP).
+    (e): Representa el evento, en este caso el evento de envío del formulario. e (o event) se pasa como argumento y permite acceder al evento mismo.
+    */
+    const handleLogin = async(e) => {
         e.preventDefault();
         setError(null);
         try {

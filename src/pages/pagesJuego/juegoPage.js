@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Este import es de axios para realizar solicitudes HTTP
-import '../assets/styles/juegoPage.css'; // Este import importa el archivo CSS para estilos
+import './juegoPage.css'; // Este import importa el archivo CSS para estilos
 
 function JuegoPage() {
-    // Define el estado inicial para almacenar la lista de juegos y el número de página
+    // Defin los estados inicial para almacenar la lista de juegos y el número de página
     const [juegos, setJuegos] = useState([]);
     const [pagina, setPagina] = useState(1);
     const [error, setError] = useState(null); // Estado para manejar errores en la carga de datos
@@ -53,9 +53,9 @@ function JuegoPage() {
             <table className="juego-table">
                 <thead>
                     <tr>
+                        <th>Id del juego</th>
                         <th>Nombre del juego</th>
                         <th>Clasificacion por edad</th>
-                        <th>Id del juego</th>
                         <th>Plataforma</th>
                         <th>Calificación Promedio</th>
                     </tr>
@@ -63,6 +63,7 @@ function JuegoPage() {
                 <tbody>
                     {juegos.map((juego) => (
                         <tr key={juego.id_juego}>
+                            <td>{juego.id_juego}</td>
                             <td>{juego.nombre_juego}</td>
                             <td>{juego.clasificacion_edad}</td>
                             <td>{juego.nombre_plataforma}</td>

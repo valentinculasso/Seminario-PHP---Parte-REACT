@@ -18,9 +18,9 @@ function App() {
 
         <Route path="/juegos" element={<JuegoPage/>} />
 
-        <Route path="/registro" element={<LoginPage/>} />
+        <Route path="/registro" element={<RegisterPage/>} />
 
-        <Route path="/login" element={<RegisterPage/>} />
+        <Route path="/login" element={<LoginPage/>} />
               
       </Routes>
       <FooterComponent />

@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../assets/styles/registroPage.css'; // Asegúrate de tener un archivo de estilos
+import './RegisterPage.css'; // Asegúrate de tener un archivo de estilos
 
 function RegistroPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    // 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
+    /* 
+    const handleRegistro = 
+    axios.post('/user', { firstName: 'Fred', lastName: 'Flintstone'}).then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+    */
+
     const handleRegistro = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Previene el envío predeterminado del formulario y recarga de la página
         setError(null);
         setSuccess(null);
 
@@ -24,7 +35,9 @@ function RegistroPage() {
         }
 
         try {
+            // Espera la respuesta de la solicitud de registro usando await
             const response = await axios.post('http://localhost:8000/registro', { username, password });
+            // Si llega aca -> solicitud exitosa
             setSuccess("Registro exitoso. Ahora puedes iniciar sesión.");
             setUsername('');
             setPassword('');
@@ -36,12 +49,14 @@ function RegistroPage() {
     return (
         <div className="registro-page">
             <h2>Registro de Usuario</h2>
+            {/* onSubmit "captura" el evento de clic o enter en el boton de registrarse y llama a la funcion handleRegistro*/}
             <form onSubmit={handleRegistro} className="registro-form">
                 <div>
                     <label>Nombre de Usuario:</label>
                     <input
                         type="text"
                         value={username}
+                        /* onChange: es un evento de React, se avtica cada vez que cambia el valor de un campo de entrada*/
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
