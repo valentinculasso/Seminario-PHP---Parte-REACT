@@ -7,26 +7,55 @@ function LoginPage({ setUser }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    // async (e), esto se refiere a que una función manejadora de eventos
+
     /* 
-    async: Hace que la función sea asincrónica, lo que permite usar await dentro de ella para esperar la resolución de promesas (como una solicitud HTTP).
-    (e): Representa el evento, en este caso el evento de envío del formulario. e (o event) se pasa como argumento y permite acceder al evento mismo.
+    const handleRegistro = 
+    axios.post('/user', { firstName: 'Fred', lastName: 'Flintstone'}).then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
     */
+
+    // async (e), esto se refiere a que una función sea manejadora de eventos
+    /* 
+    async: Hace que la función sea asincrónica, lo que permite usar await dentro de ella para esperar la  solicitud HTTP
+    (e): Representa el evento, en este caso el evento de envío del formulario e (o event) se pasa como argumento y permite acceder al evento mismo.
     const handleLogin = async(e) => {
         e.preventDefault();
         setError(null);
         try {
             const response = await axios.post('http://localhost:8000/login', { username, password });
+            
+            
             const { token, nombreUsuario } = response.data;
 
-            // Guardar el token en el almacenamiento local
+            // Guardar el token en el almacenamiento local ?
             localStorage.setItem('token', token);
+
+
             setUser(nombreUsuario); // Actualizar el estado del usuario en la app
         } catch (err) {
             setError("Credenciales incorrectas. Intenta de nuevo.");
         }
-    };
+    }; */
 
+    const handleLogin = (e) => {
+        e.preventDefault();
+        setError(null);
+    
+        axios.post('http://localhost:8000/login', { username, password })
+            .then((response) => {
+                // Cuando me logeo si no me equivoco me devolvia el token generado
+                // const { token } = response.data;
+                // localStorage.setItem('token', token);
+            })
+            .catch(() => {
+                setError("Credenciales incorrectas. Intenta de nuevo.");
+            });
+    };
+    
     return (
         <div className="login-page">
             <h2>Inicio de Sesión</h2>
