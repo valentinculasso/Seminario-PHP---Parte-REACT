@@ -64,7 +64,7 @@ function JuegoPage() {
                     {juegos.map((juego) => (
                         <tr key={juego.id_juego}>
                             <td>{juego.id_juego}</td>
-                            <td><a>{juego.nombre_juego}</a></td>
+                            <td><a href='http://localhost:3000'>{juego.nombre_juego}</a></td>
                             <td>{juego.clasificacion_edad}</td>
                             <td>{juego.nombre_plataforma}</td>
                             <td>{juego.calificacion_promedio}</td>
@@ -74,7 +74,7 @@ function JuegoPage() {
             </table>
 
             {/* Controles de paginación */}
-            <div className="pagination-cotrols">
+            <div className="pagination-controls">
                 <button onClick={handlePaginaAnterior} disabled={pagina === 1} className="pagination-button">
                     Anterior
                 </button>

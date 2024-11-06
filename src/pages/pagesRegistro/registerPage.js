@@ -7,23 +7,13 @@ function RegistroPage() {
     const [password, setPassword] = useState('');
     // 
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+    const [success, setSuccess] = useState(null);   
 
-    /* 
-    const handleRegistro = 
-    axios.post('/user', { firstName: 'Fred', lastName: 'Flintstone'}).then(function (response) {
-        console.log(response);
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
-    */
-
-    const handleRegistro = async (e) => {
+    const handleRegistro = (e) => {
         e.preventDefault(); // Previene el envío predeterminado del formulario y recarga de la página
         setError(null);
         setSuccess(null);
-
+        
         // Validaciones
         if (username.length < 6 || username.length > 20 || !/^[a-zA-Z0-9]+$/.test(username)) {
             setError("El nombre de usuario debe tener entre 6 y 20 caracteres alfanuméricos.");
@@ -34,16 +24,18 @@ function RegistroPage() {
             return;
         }
 
-        try {
-            // Espera la respuesta de la solicitud de registro usando await
-            const response = await axios.post('http://localhost:8000/registro', { username, password });
-            // Si llega aca -> solicitud exitosa
+        axios.post('http://localhost:8000/register',{
+                nombre_usuario: username,
+                clave: password
+            }).then(function (response){
+                // Si llega aca -> solicitud exitosa
             setSuccess("Registro exitoso. Ahora puedes iniciar sesión.");
             setUsername('');
             setPassword('');
-        } catch (err) {
-            setError("Hubo un problema con el registro. Intenta nuevamente.");
-        }
+            })
+            .catch(() => {
+                setError("Hubo un problema con el registro. Intenta nuevamente.");
+            });
     };
 
     return (

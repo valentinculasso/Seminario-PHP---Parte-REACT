@@ -14,11 +14,9 @@ function App() {
       <NavBarComponent />
       <Routes>
 
-        <Route path="/" element={<h2>Bienvenido a Videojuegos</h2>} />
+        <Route path="/" element={<JuegoPage/>} />
 
-        <Route path="/juegos" element={<JuegoPage/>} />
-
-        <Route path="/registro" element={<RegisterPage/>} />
+        <Route path="/register" element={<RegisterPage/>} />
 
         <Route path="/login" element={<LoginPage/>} />
               
