@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Este import es de axios para realizar solicitudes HTTP
+import { Link } from 'react-router-dom'; // Este import me permite que al hacerle click a un nombre de juego (enlace) se ejecute detalleJuego.js en otras palabras me lleve a la URL de ese juego
 import './juegoPage.css'; // Este import importa el archivo CSS para estilos
 
 function JuegoPage() {
@@ -64,7 +65,7 @@ function JuegoPage() {
                     {juegos.map((juego) => (
                         <tr key={juego.id_juego}>
                             <td>{juego.id_juego}</td>
-                            <td><a>{juego.nombre_juego}</a></td>
+                            <td><Link to={`/juegos/${juego.id_juego}`}>{juego.nombre_juego}</Link></td>
                             <td>{juego.clasificacion_edad}</td>
                             <td>{juego.nombre_plataforma}</td>
                             <td>{juego.calificacion_promedio}</td>
