@@ -7,7 +7,10 @@ function JuegoPage() {
     // Defin los estados inicial para almacenar la lista de juegos y el número de página
     const [juegos, setJuegos] = useState([]);
     const [pagina, setPagina] = useState(1);
+    const [total, setTotal] = useState(0);
     const [error, setError] = useState(null); // Estado para manejar errores en la carga de datos
+
+    const juegosPorPagina = 5;
 
     // useEffect se ejecuta cada vez que 'pagina' cambia, llamando a fetchGameData
     useEffect(() => {
@@ -20,7 +23,8 @@ function JuegoPage() {
         axios.get(`http://localhost:8000/juegos?pagina=${pagina}`)
             .then((response) => {
                 // Si la solicitud es exitosa, guarda los datos de los juegos en el estado
-                setJuegos(response.data);
+                setJuegos(response.data.result);
+                setTotal(response.data.total);
                 setError(null); // Reinicia el estado de error si los datos se cargan correctamente
             })
             .catch((error) => {
@@ -36,7 +40,9 @@ function JuegoPage() {
 
     // Función para avanzar a la siguiente página
     const handlePaginaSiguiente = () => {
-        setPagina((prevPagina) => prevPagina + 1); // Pagina + 1
+        if(pagina < Math.ceil(total / juegosPorPagina)){
+            setPagina((prevPagina) => prevPagina + 1); // Pagina + 1
+        }
     };
 
     // Función para retroceder a la página anterior
@@ -80,8 +86,9 @@ function JuegoPage() {
                     Anterior
                 </button>
                 <span className="pagination-info">Página {pagina}</span>
-                <button onClick={handlePaginaSiguiente}/* aca deberia poner una condicion para que si en la siguiente pagina no hay nada no deje ir? como arriba si llega a la pagina 1
-                 */ className="pagination-button">
+                <button onClick={handlePaginaSiguiente}
+                    disabled={pagina >= Math.ceil(total / juegosPorPagina)}
+                    className="pagination-button">
                     Siguiente
                 </button>
             </div>

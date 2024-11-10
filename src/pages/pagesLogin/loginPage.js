@@ -13,10 +13,10 @@ function LoginPage({ setUser }) {
     
         axios.post('http://localhost:8000/login' , {nombre_usuario: username, clave: password})
             .then((response) => {
-                // Cuando me logeo si no me equivoco me devolvia el token generado
+                // Cuando le doy a "iniciar sesion" me devuelve el token generado
                 const token = response.data;
                 localStorage.setItem('token', token);
-                // let tokenS = localStorage.getItem('token');
+                localStorage.setItem('username', username);
                 console.log(response);
             })
             .catch(() => {

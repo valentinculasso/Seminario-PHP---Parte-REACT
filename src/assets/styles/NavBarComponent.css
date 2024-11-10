@@ -16,3 +16,10 @@
   .nav-link:hover {
     color: blue;              /* Cambia el color del texto al pasar el mouse */
   }
+
+  .navbar .username {
+    color: white;                 /* Color de texto para el nombre de usuario */
+    font-size: 16px;              /* Tamaño de fuente igual que los enlaces */
+    padding: 20px 30px;           /* Espaciado interno alrededor del nombre de usuario */
+    font-weight: bold;            /* Hacer el texto del nombre de usuario más prominente */
+}
