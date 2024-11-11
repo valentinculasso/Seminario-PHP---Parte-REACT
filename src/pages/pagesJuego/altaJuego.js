@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { setAuthHeader } from '../axiosConfig';
-import './altaJuego.css';
+import './soporteJuego.css';
 import api from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,59 +34,59 @@ function AltaJuego() {
             .then(() => {
                 setSuccessMessage('Juego agregado exitosamente.');
                 setError(null);
-                navigate('/'); // Redirige a otra página si es necesario
+                navigate('/soporte'); // Redirige a otra página si es necesario
             })
             .catch(() => {
                 setError('Error al agregar el juego.');
                 setSuccessMessage('');
             });
-};
+    };
 
     return(
         <div className="nuevo-juego-form">
-        <h2>Alta de un Nuevo Juego</h2>
-        {successMessage && <div className="success-message">{successMessage}</div>}
-        {error && <div className="error-message">{error}</div>}
+            <h2>Alta de un Nuevo Juego</h2>
+            {successMessage && <div className="success-message">{successMessage}</div>}
+            {error && <div className="error-message">{error}</div>}
         
-        <form onSubmit={handleSubmitGame}>
-            <div>
-                <label>Nombre:</label>
-                <input 
-                    type="text" 
-                    value={nombre} 
-                    onChange={(e) => setNombre(e.target.value)} 
-                    maxLength="45" 
-                    required 
-                />
-            </div>
-            <div>
-                <label>Descripción:</label>
-                <textarea 
-                    value={descripcion} 
-                    onChange={(e) => setDescripcion(e.target.value)} 
-                    required 
-                />
-            </div>
-            <div>
-            <label>Imagen:</label>
-                <input
-                    type="text"
-                    value={imagen} 
-                    onChange={(e) => setImagen(e.target.value)} 
-                    required 
-                />
-            </div>
-            <div>
-                <label>Clasificación por Edad:</label>
-                <select value={clasificacionEdad} onChange={(e) => setClasificacionEdad(e.target.value)}>
-                    {opcionesClasificacion.map((opcion) => (
-                        <option key={opcion} value={opcion}>{opcion}</option>
-                    ))}
-                </select>
-            </div>
-            <button type="submit">Agregar Juego</button>
-        </form>
-    </div>
+            <form onSubmit={handleSubmitGame}>
+                <div>
+                    <label>Nombre:</label>
+                    <input 
+                        type="text" 
+                        value={nombre} 
+                        onChange={(e) => setNombre(e.target.value)} 
+                        maxLength="45" 
+                        required 
+                    />
+                </div>
+                <div>
+                    <label>Descripción:</label>
+                    <textarea 
+                        value={descripcion} 
+                        onChange={(e) => setDescripcion(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div>
+                <label>Imagen:</label>
+                    <input
+                        type="text"
+                        value={imagen} 
+                        onChange={(e) => setImagen(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div>
+                    <label>Clasificación por Edad:</label>
+                    <select value={clasificacionEdad} onChange={(e) => setClasificacionEdad(e.target.value)}>
+                        {opcionesClasificacion.map((opcion) => (
+                            <option key={opcion} value={opcion}>{opcion}</option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit">Agregar Juego</button>
+            </form>
+        </div>
     );  
 }
 

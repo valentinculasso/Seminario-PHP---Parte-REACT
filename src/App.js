@@ -9,6 +9,7 @@ import LoginPage from './pages/pagesLogin/loginPage';
 import RegisterPage from './pages/pagesRegistro/registerPage';
 import CalificacionPage from './pages/pagesCalificacion/calificacionPage';
 import AltaJuego from './pages/pagesJuego/altaJuego';
+import SoporteJuego from './pages/pagesJuego/soporteJuego';
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
           <Route path="/calificacion" element={<CalificacionPage/>} />
 
           <Route path="/juego" element={<AltaJuego/>} />
+
+          <Route path="/soporte" element={<SoporteJuego/>} />
 
           <Route path="/juegos/:id" element={<DetalleJuego/>} />
 
