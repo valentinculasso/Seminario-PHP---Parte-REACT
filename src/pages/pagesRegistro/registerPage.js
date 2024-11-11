@@ -5,7 +5,6 @@ import './RegisterPage.css'; // Asegúrate de tener un archivo de estilos
 function RegistroPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    // 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);   
 

@@ -24,7 +24,6 @@ function LoginPage({ setUser }) {
                 const token = response.data;
                 localStorage.setItem('token', token);
                 login({ username });
-
                 navigate('/'); // Al darle a iniciar sesion me lleva a la pagina de inicio
             })
             .catch(() => {

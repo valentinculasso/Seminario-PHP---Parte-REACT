@@ -36,7 +36,7 @@ function AltaJuego() {
                 setError(null);
                 const id = response.data.juego_id;
                 localStorage.setItem('juego_id', id);
-                console.log('ID guardado en localStorage:', id); // Verifica que el id esté correcto
+                console.log('ID guardado en localStorage:', id); // Verifico que el id se este guardando
                 navigate('/soporte'); // Redirige a otra página si es necesario
             })
             .catch(() => {
@@ -71,7 +71,7 @@ function AltaJuego() {
                     />
                 </div>
                 <div>
-                <label>Imagen:</label>
+                    <label>Imagen:</label>
                     <input
                         type="text"
                         value={imagen} 

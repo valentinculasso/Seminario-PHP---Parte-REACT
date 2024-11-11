@@ -4,6 +4,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 const UserContext = createContext();
 // "Hook" para acceder facilmente al conexto
 export const useUser = () => useContext(UserContext);
+
 // Proveedor del conexto de usuario
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Con este estado almaceno al usuario logeado
@@ -20,6 +21,7 @@ export const UserProvider = ({ children }) => {
   // Funcion para iniciar sesion, almaceno los datos del usuario
   const login = (userData) => {
     setUser(userData);
+    // Pregunta ... aca deberia tambien setear el token? o con hacerlo en loginPage esta bien ? Como que si lo hago aca usaria todo en el contexto y no en el loginPage
     localStorage.setItem('username', userData.username);
   };
 

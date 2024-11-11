@@ -21,7 +21,7 @@ function CalificacionPage() {
             return;
         }
 
-        api.post('/calificacion', { juego_id: juegoID, estrellas })
+        api.post('/calificacion', { juego_id: juegoID, estrellas: estrellas })
             .then(() => {
                 setSuccessMessage('Calificación enviada correctamente!');
                 setError(null);
