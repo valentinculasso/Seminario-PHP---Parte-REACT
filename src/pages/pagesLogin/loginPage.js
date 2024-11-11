@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useUser } from './userContext';
+import api from '../axiosConfig';
 import './LoginPage.css'; // Asegúrate de tener un archivo de estilos
 
 function LoginPage({ setUser }) {
@@ -7,17 +8,19 @@ function LoginPage({ setUser }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
+    // nuevo
+    const { login } = useUser(); // Uso el contexto para el login
+
     const handleLogin = (e) => {
         e.preventDefault();
         setError(null);
     
-        axios.post('http://localhost:8000/login' , {nombre_usuario: username, clave: password})
+        api.post('/login' , {nombre_usuario: username, clave: password})
             .then((response) => {
                 // Cuando le doy a "iniciar sesion" me devuelve el token generado
                 const token = response.data;
                 localStorage.setItem('token', token);
-                localStorage.setItem('username', username);
-                console.log(response);
+                login({ username });
             })
             .catch(() => {
                 setError("Credenciales incorrectas. Intenta de nuevo.");

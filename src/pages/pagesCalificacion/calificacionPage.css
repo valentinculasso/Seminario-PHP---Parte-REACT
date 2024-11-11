@@ -1,0 +1,49 @@
+/* Asegúrate de que el contenedor principal ocupe toda la altura de la pantalla */
+.calificacion-page {
+    display: flex;
+    justify-content: center;  /* Centra horizontalmente */
+    align-items: center;      /* Centra verticalmente */
+    min-height: 100vh;         /* Asegura que el contenedor ocupe toda la altura de la pantalla */
+    background-color: #f0f4f8; /* Fondo de la página */
+}
+
+/* Formulario */
+.calificacion-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px; /* Ancho máximo del formulario */
+}
+
+.calificacion-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.calificacion-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.calificacion-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.calificacion-form button:hover {
+    background-color: #0056b3;
+}

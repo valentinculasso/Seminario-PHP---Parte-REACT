@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../axiosConfig';
 import './detalleJuego.css';
 
 function DetalleJuego() {
@@ -14,7 +14,7 @@ function DetalleJuego() {
     }, [id]);
 
     const fetchGame = (id) => {
-        axios.get(`http://localhost:8000/juegos/${id}`)
+        api.get(`/juegos/${id}`)
             .then((response) => {
                 setJuego(response.data);
                 setError(null);

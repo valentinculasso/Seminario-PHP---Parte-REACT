@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../axiosConfig';
 import './RegisterPage.css'; // Asegúrate de tener un archivo de estilos
 
 function RegistroPage() {
@@ -24,7 +24,7 @@ function RegistroPage() {
             return;
         }
 
-        axios.post('http://localhost:8000/register',{
+        api.post('/register',{
                 nombre_usuario: username,
                 clave: password
             }).then(function (response){

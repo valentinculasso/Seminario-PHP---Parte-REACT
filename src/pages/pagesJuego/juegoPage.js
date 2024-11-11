@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Este import es de axios para realizar solicitudes HTTP
+import api from '../axiosConfig';
 import { Link } from 'react-router-dom'; // Este import me permite que al hacerle click a un nombre de juego (enlace) se ejecute detalleJuego.js en otras palabras me lleve a la URL de ese juego
 import './juegoPage.css'; // Este import importa el archivo CSS para estilos
 
@@ -20,7 +20,7 @@ function JuegoPage() {
     // Función para obtener los datos de los juegos desde el backend
     const fetchGameData = (pagina) => {
         // Realiza una solicitud GET a la API, pasando la página actual como parámetro
-        axios.get(`http://localhost:8000/juegos?pagina=${pagina}`)
+        api.get(`/juegos?pagina=${pagina}`)
             .then((response) => {
                 // Si la solicitud es exitosa, guarda los datos de los juegos en el estado
                 setJuegos(response.data.result);
