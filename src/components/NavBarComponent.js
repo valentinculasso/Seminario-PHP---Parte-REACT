@@ -18,6 +18,7 @@ function NavBarComponent() {
         {user ? (
                 <>
                     <Link to="/calificacion" className="nav-link">Calificar juego</Link>
+                    <Link to="/juego" className="nav-link">Dar de alta juego</Link>
                     <span className="username">Bienvenido, {user.username}</span>
                     <button onClick={logout} className="">Cerrar Sesión</button>
                 </>

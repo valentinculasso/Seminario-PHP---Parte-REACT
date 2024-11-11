@@ -8,6 +8,7 @@ import DetalleJuego from './pages/pagesJuego/detalleJuego';
 import LoginPage from './pages/pagesLogin/loginPage';
 import RegisterPage from './pages/pagesRegistro/registerPage';
 import CalificacionPage from './pages/pagesCalificacion/calificacionPage';
+import AltaJuego from './pages/pagesJuego/altaJuego';
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
           <Route path="/" element={<JuegoPage/>} />
 
           <Route path="/calificacion" element={<CalificacionPage/>} />
+
+          <Route path="/juego" element={<AltaJuego/>} />
 
           <Route path="/juegos/:id" element={<DetalleJuego/>} />
 

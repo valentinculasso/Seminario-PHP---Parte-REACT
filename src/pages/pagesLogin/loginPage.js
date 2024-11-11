@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useUser } from './userContext';
 import api from '../axiosConfig';
 import './LoginPage.css'; // Asegúrate de tener un archivo de estilos
+import { useNavigate } from 'react-router-dom';  // Importa useNavigate
 
 function LoginPage({ setUser }) {
     const [username, setUsername] = useState('');
@@ -10,6 +11,8 @@ function LoginPage({ setUser }) {
 
     // nuevo
     const { login } = useUser(); // Uso el contexto para el login
+
+    const navigate = useNavigate(); // Hook de navegación
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -21,6 +24,8 @@ function LoginPage({ setUser }) {
                 const token = response.data;
                 localStorage.setItem('token', token);
                 login({ username });
+
+                navigate('/'); // Al darle a iniciar sesion me lleva a la pagina de inicio
             })
             .catch(() => {
                 setError("Credenciales incorrectas. Intenta de nuevo.");

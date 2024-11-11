@@ -1,20 +1,31 @@
-/* Asegúrate de que el contenedor principal ocupe toda la altura de la pantalla */
 .calificacion-page {
     display: flex;
-    justify-content: center;  /* Centra horizontalmente */
-    align-items: center;      /* Centra verticalmente */
-    min-height: 100vh;         /* Asegura que el contenedor ocupe toda la altura de la pantalla */
-    background-color: #f0f4f8; /* Fondo de la página */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    padding: 20px;
+    background-color: white;
 }
 
-/* Formulario */
+.titulo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Arial', sans-serif;
+}
+
 .calificacion-form {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 400px; /* Ancho máximo del formulario */
+    max-width: 500px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .calificacion-form label {
@@ -34,14 +45,13 @@
 
 .calificacion-form button {
     width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: #fff;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1.2rem;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 .calificacion-form button:hover {

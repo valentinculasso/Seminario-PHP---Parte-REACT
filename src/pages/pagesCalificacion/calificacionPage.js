@@ -14,7 +14,7 @@ function CalificacionPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        setAuthHeader(); // Llamar a la función para establecer el token en las solicitudes
+        setAuthHeader(); // Llama a la función para establecer el token en las solicitudes
 
         if (juegoID === '' || estrellas < 1 || estrellas > 5) {
             setError('Por favor, completa todos los campos correctamente.');
@@ -38,7 +38,7 @@ function CalificacionPage() {
 
     return (
         <div className="calificacion-page">
-            <h1>Calificar Juego</h1>
+            <h1 className="titulo">Calificar Juego</h1>
             
             {/* Mostrar mensaje de éxito o error */}
             {successMessage && <div className="success-message">{successMessage}</div>}
