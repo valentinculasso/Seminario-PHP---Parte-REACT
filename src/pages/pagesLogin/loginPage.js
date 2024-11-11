@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useUser } from './userContext';
 import api from '../axiosConfig';
+import { useUser } from './userContext';
 import './LoginPage.css'; // Asegúrate de tener un archivo de estilos
 import { useNavigate } from 'react-router-dom';  // Importa useNavigate
 
@@ -20,10 +20,14 @@ function LoginPage({ setUser }) {
     
         api.post('/login' , {nombre_usuario: username, clave: password})
             .then((response) => {
-                // Cuando le doy a "iniciar sesion" me devuelve el token generado
-                const token = response.data;
+                // Cuando le doy a "iniciar sesion" guarda el token
+                const token = response.data.result;
+                // Cuando le doy a "iniciar sesion" ademas guarda si es admin
+                const admin = response.data.es_admin;
                 localStorage.setItem('token', token);
-                login({ username });
+                localStorage.setItem('es_admin', admin);
+                localStorage.setItem('username', username);
+                login({ username, isAdmin: admin });
                 navigate('/'); // Al darle a iniciar sesion me lleva a la pagina de inicio
             })
             .catch(() => {
