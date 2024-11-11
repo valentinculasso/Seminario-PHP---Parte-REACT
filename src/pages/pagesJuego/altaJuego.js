@@ -31,9 +31,12 @@ function AltaJuego() {
 
         // Enviar el formulario al endpoint del backend
         api.post('/juego', formData)
-            .then(() => {
+            .then((response) => {
                 setSuccessMessage('Juego agregado exitosamente.');
                 setError(null);
+                const id = response.data.juego_id;
+                localStorage.setItem('juego_id', id);
+                console.log('ID guardado en localStorage:', id); // Verifica que el id esté correcto
                 navigate('/soporte'); // Redirige a otra página si es necesario
             })
             .catch(() => {

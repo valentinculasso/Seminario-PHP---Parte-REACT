@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { setAuthHeader } from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import './altaJuego.css';
@@ -10,6 +10,15 @@ function SoporteJuego() {
     const [successMessage, setSuccessMessage] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    // Usamos useEffect para cargar el id desde localStorage cuando el componente se monta
+    useEffect(() => {
+        const storedID = localStorage.getItem('juego_id');
+        console.log('ID almacenado:', storedID); // Verifica si el ID está correcto
+        if (storedID) {
+            setID(storedID); // Establecemos el id al valor de localStorage
+        }
+    }, []); // El array vacío asegura que esto solo se ejecute al montar el componente
 
     const handleSubmitSupport = (e) => {
         e.preventDefault();
@@ -40,15 +49,6 @@ function SoporteJuego() {
             {error && <div className="error-message">{error}</div>}
         
             <form onSubmit={handleSubmitSupport}>
-                <div>
-                    <label>ID del Juego:</label>
-                    <input 
-                        type="text" 
-                        value={id} 
-                        onChange={(e) => setID(e.target.value)} 
-                        required 
-                    />
-                </div>
                 <div>
                     <label>Plataforma:</label>
                     <input 
