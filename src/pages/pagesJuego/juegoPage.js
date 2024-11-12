@@ -8,6 +8,7 @@ function JuegoPage() {
     const [pagina, setPagina] = useState(1);
     const [total, setTotal] = useState(0);
     const [error, setError] = useState(null);
+    //
     const [texto, setTexto] = useState('');
     const [plataforma, setPlataforma] = useState('');
     const [clasificacion, setClasificacion] = useState('');

@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
     // Funcion para cerrar sesion, limpio los datos del usuario
     const logout = () => {
         setUser(null);
-        setIsAdmin(false);  // Limpio el estado de admin
+        setIsAdmin(false);
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         localStorage.removeItem('es_admin');
