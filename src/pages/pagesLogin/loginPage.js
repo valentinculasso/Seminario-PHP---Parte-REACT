@@ -4,12 +4,11 @@ import { useUser } from './userContext';
 import './LoginPage.css'; // Asegúrate de tener un archivo de estilos
 import { useNavigate } from 'react-router-dom';  // Importa useNavigate
 
-function LoginPage({ setUser }) {
+function LoginPage() { // LoginPage ( { setUser }) -> esto estaba
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    // nuevo
     const { login } = useUser(); // Uso el contexto para el login
 
     const navigate = useNavigate(); // Hook de navegación
@@ -27,7 +26,7 @@ function LoginPage({ setUser }) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('es_admin', admin);
                 localStorage.setItem('username', username);
-                login({ username, isAdmin: admin });
+                login({ username, isAdmin: admin === '1'});
                 navigate('/'); // Al darle a iniciar sesion me lleva a la pagina de inicio
             })
             .catch(() => {

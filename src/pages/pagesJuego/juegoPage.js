@@ -1,62 +1,100 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import api from '../axiosConfig';
-import { Link } from 'react-router-dom'; // Este import me permite que al hacerle click a un nombre de juego (enlace) se ejecute detalleJuego.js en otras palabras me lleve a la URL de ese juego
-import './juegoPage.css'; // Este import importa el archivo CSS para estilos
+import { Link } from 'react-router-dom';
+import './juegoPage.css';
 
 function JuegoPage() {
-    // Defin los estados inicial para almacenar la lista de juegos y el número de página
     const [juegos, setJuegos] = useState([]);
     const [pagina, setPagina] = useState(1);
     const [total, setTotal] = useState(0);
-    const [error, setError] = useState(null); // Estado para manejar errores en la carga de datos
+    const [error, setError] = useState(null);
+    const [texto, setTexto] = useState('');
+    const [plataforma, setPlataforma] = useState('');
+    const [clasificacion, setClasificacion] = useState('');
+    const [filtros, setFiltros] = useState({ texto, plataforma, clasificacion }); // Creo un estado "filtros" para manejar los 3 juntos
 
     const juegosPorPagina = 5;
 
-    // useEffect se ejecuta cada vez que 'pagina' cambia, llamando a fetchGameData
-    useEffect(() => {
-        fetchGameData(pagina);
-    }, [pagina]);
+    // Define fetchGameData como una función con useCallback, React "memoriza" la funcion, de este modo no se vuelven a crear en cada renderizado, solo se crea si sus dependencias cambian
+    const fetchGameData = useCallback(() => {
 
-    // Función para obtener los datos de los juegos desde el backend
-    const fetchGameData = (pagina) => {
-        // Realiza una solicitud GET a la API, pasando la página actual como parámetro
-        api.get(`/juegos?pagina=${pagina}`)
+        // Para manejar los parametros mas facil uso URLSearchParams, creo una cadena de consulta queryParams con los parametros
+
+        const queryParams = new URLSearchParams({
+            pagina,
+            texto: filtros.texto,
+            plataforma: filtros.plataforma,
+            clasificacion: filtros.clasificacion,
+        });
+
+        console.log(queryParams.toString());
+
+        api.get(`/juegos?${queryParams.toString()}`)
             .then((response) => {
-                // Si la solicitud es exitosa, guarda los datos de los juegos en el estado
                 setJuegos(response.data.result);
                 setTotal(response.data.total);
-                setError(null); // Reinicia el estado de error si los datos se cargan correctamente
+                setError(null);
             })
             .catch((error) => {
-                // Manejo de errores: verifica si el error es específico (404) o genérico
                 if (error.response && error.response.status === 404) {
-                    setError("No hay juegos que mostrar en esta página."); // Mensaje de error específico para 404
+                    setError("No hay juegos que mostrar en esta página.");
                 } else {
                     setError("Hubo un problema al cargar los juegos.");
                 }
-                setJuegos([]); // Vacio la lista de juegos si hay un error
+                setJuegos([]);
             });
-    };
+        // Uso pagina y filtros como dependencias, si estas cambian react crea la funcion
+    }, [pagina, filtros]);
 
-    // Función para avanzar a la siguiente página
+    // useEffect para actualizar la página cuando cambian los filtros
+    useEffect(() => {
+        setPagina(1); // Si cambia un filtro (osea un usuario escribe un filtro) -> si el usuario estaba por ejemplo en la pagina 3 (sin filtros), cuando aplique un filtro 'pagina' vuelve a
+                      // setearse en 1, si no mostraria la nueva pagina con el filtro aplicado con la pagina actual
+        setFiltros({ texto, plataforma, clasificacion }); // Actualizo el estado de filtros
+    }, [texto, plataforma, clasificacion]);
+
+    // Llama a fetchGameData cada vez que los filtros o la página cambian
+    useEffect(() => {
+        fetchGameData();
+    }, [fetchGameData]);
+
     const handlePaginaSiguiente = () => {
-        if(pagina < Math.ceil(total / juegosPorPagina)){
-            setPagina((prevPagina) => prevPagina + 1); // Pagina + 1
+        if (pagina < Math.ceil(total / juegosPorPagina)) {
+            setPagina((prevPagina) => prevPagina + 1);
         }
     };
 
-    // Función para retroceder a la página anterior
     const handlePaginaAnterior = () => {
         if (pagina > 1) {
-            setPagina((prevPagina) => prevPagina - 1); // Pagina - 1
+            setPagina((prevPagina) => prevPagina - 1);
         }
     };
-
-    // Faltaria agregarle los filtros y ya despues hacer bien el css
 
     return (
         <div className="juego-page">
-            {/* Tabla para mostrar la lista de juegos */}
+            {/* Formulario de filtros */}
+            <form className="filter-form">
+                <input
+                    type="text"
+                    placeholder="Buscar por nombre"
+                    value={texto}
+                    onChange={(e) => setTexto(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Buscar por plataforma"
+                    value={plataforma}
+                    onChange={(e) => setPlataforma(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Clasificación (ATP, +13, +18)"
+                    value={clasificacion}
+                    onChange={(e) => setClasificacion(e.target.value)}
+                />
+            </form>
+
+            {/* Tabla de juegos */}
             <table className="juego-table">
                 <thead>
                     <tr>
@@ -79,22 +117,24 @@ function JuegoPage() {
                     ))}
                 </tbody>
             </table>
+            
+            {/* Mensaje de error */}
+            {error && <div className="error-message">{error}</div>}
 
             {/* Controles de paginación */}
-            <div className="pagination-cotrols">
+            <div className="pagination-controls">
                 <button onClick={handlePaginaAnterior} disabled={pagina === 1} className="pagination-button">
                     Anterior
                 </button>
                 <span className="pagination-info">Página {pagina}</span>
-                <button onClick={handlePaginaSiguiente}
+                <button
+                    onClick={handlePaginaSiguiente}
                     disabled={pagina >= Math.ceil(total / juegosPorPagina)}
-                    className="pagination-button">
+                    className="pagination-button"
+                >
                     Siguiente
                 </button>
             </div>
-
-            {/* Muestra el mensaje de error, si existe */}
-            {error && <div className="error-message">{error}</div>}
         </div>
     );
 }

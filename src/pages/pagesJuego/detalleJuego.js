@@ -7,7 +7,6 @@ function DetalleJuego() {
     const { id } = useParams();
     const [juego, setJuego] = useState(null);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true); // Estado para manejar la carga
 
     useEffect(() => {
         fetchGame(id);
@@ -22,12 +21,7 @@ function DetalleJuego() {
             .catch((error) => {
                 setError("Hubo un problema al cargar los detalles del juego.");
             })
-            .finally(() => {
-                setLoading(false); // Finaliza la carga al terminar la solicitud
-            });
     };
-
-    if (loading) return <div className="detalle-juego-container">Cargando...</div>;
 
     if (error) return <div className="detalle-juego-container error-message">{error}</div>;
 

@@ -72,10 +72,10 @@ function AltaJuego() {
                 </div>
                 <div>
                     <label>Imagen:</label>
-                    <input
-                        type="text"
-                        value={imagen} 
-                        onChange={(e) => setImagen(e.target.value)} 
+                    <input 
+                        type="file" 
+                        accept="image/jpeg" 
+                        onChange={(e) => setImagen(e.target.files[0])} 
                         required 
                     />
                 </div>
@@ -95,13 +95,12 @@ function AltaJuego() {
 
 /* 
     <label>Imagen:</label>
-                <input 
-                    type="file" 
-                    accept="image/jpeg" 
-                    onChange={(e) => setImagen(e.target.files[0])} 
-                    required 
-                />
-
+                    <input
+                        type="text"
+                        value={imagen} 
+                        onChange={(e) => setImagen(e.target.value)} 
+                        required 
+                    />
 */
 
 export default AltaJuego;
