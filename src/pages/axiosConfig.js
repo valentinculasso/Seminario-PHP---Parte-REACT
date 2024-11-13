@@ -15,27 +15,27 @@ export const setAuthHeader = () => {
   }
 };
 
-// Metodo de verificacion de token
+// Metodo de verificacion de vencimiento del token
 export const checkSesion = () => {
   const token = localStorage.getItem('token');
-  if (token) {
-    const vencimiento = new Date(localStorage.getItem('vencimiento'));
-    const fechaActual = new Date();
-    console.log(vencimiento);
-    console.log(fechaActual);
-    if(!vencimiento){ // Este chequeo seria absurdo ? Porque si tengo token SI O SI voy a tener un vencimiento
-      return false;
+    if (token) {
+      const vencimiento = new Date(localStorage.getItem('vencimiento'));
+      const fechaActual = new Date();
+      console.log(vencimiento);
+      console.log(fechaActual);
+      if(!vencimiento){ // Este chequeo seria absurdo ? Porque si tengo token SI O SI voy a tener un vencimiento
+        return false;
+      }
+      if(fechaActual > vencimiento){
+        localStorage.removeItem('token');
+        localStorage.removeItem('vencimiento');
+        localStorage.removeItem('username');
+        localStorage.removeItem('es_admin');
+        return false;
+      }
+      return true;
     }
-    if(fechaActual > vencimiento){
-      localStorage.removeItem('token');
-      localStorage.removeItem('vencimiento');
-      localStorage.removeItem('username');
-      localStorage.removeItem('es_admin');
-      return false;
-    }
-    return true;
+    return false;
   }
-  return false;
-}
 
 export default api;

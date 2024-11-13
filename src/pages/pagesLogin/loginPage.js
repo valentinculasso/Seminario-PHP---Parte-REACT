@@ -10,19 +10,34 @@ function LoginPage() {
 
     const navigate = useNavigate();
 
+    // Función para decodificar y parsear el token personalizado
+    const decodificarToken = (tokenBase64) => {
+        try {
+        // Decodificar la cadena Base64
+        const jsonString = atob(tokenBase64);
+        // Parsear la cadena decodificada a un objeto JSON
+        return JSON.parse(jsonString);
+        } catch (error) {
+            console.error('Error al decodificar el token:', error);
+            return null; // Retornar null si ocurre algún error
+        }
+  };
+
     const handleLogin = (e) => {
         e.preventDefault();
         setError(null);
     
         api.post('/login' , {nombre_usuario: username, clave: password})
             .then((response) => {
-                const token = response.data.result;
-                const vencimiento = response.data.vencimiento_token;
-                const admin = response.data.es_admin;
+                const token = response.data;
+                const datosToken = decodificarToken(token);
+                const vencimiento = datosToken.date;
+                const admin = datosToken.admin;
+                //
                 localStorage.setItem('token', token);
+                localStorage.setItem('username', username);
                 localStorage.setItem('vencimiento', vencimiento);
                 localStorage.setItem('es_admin', admin);
-                localStorage.setItem('username', username);
                 navigate('/');
             })
             .catch(() => {
