@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import api from '../axiosConfig';
-import { useUser } from './userContext';
-import './LoginPage.css'; // Asegúrate de tener un archivo de estilos
-import { useNavigate } from 'react-router-dom';  // Importa useNavigate
+import './LoginPage.css';
+import { useNavigate } from 'react-router-dom';
 
-function LoginPage() { // LoginPage ( { setUser }) -> esto estaba
+function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const { login } = useUser(); // Uso el contexto para el login
-
-    const navigate = useNavigate(); // Hook de navegación
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -19,15 +16,14 @@ function LoginPage() { // LoginPage ( { setUser }) -> esto estaba
     
         api.post('/login' , {nombre_usuario: username, clave: password})
             .then((response) => {
-                // Cuando le doy a "iniciar sesion" guarda el token
                 const token = response.data.result;
-                // Cuando le doy a "iniciar sesion" ademas guarda si es admin
+                const vencimiento = response.data.vencimiento_token;
                 const admin = response.data.es_admin;
                 localStorage.setItem('token', token);
+                localStorage.setItem('vencimiento', vencimiento);
                 localStorage.setItem('es_admin', admin);
                 localStorage.setItem('username', username);
-                login({ username, isAdmin: admin === '1'});
-                navigate('/'); // Al darle a iniciar sesion me lleva a la pagina de inicio
+                navigate('/');
             })
             .catch(() => {
                 setError("Credenciales incorrectas. Intenta de nuevo.");

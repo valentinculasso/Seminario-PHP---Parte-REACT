@@ -13,7 +13,6 @@ function RegistroPage() {
         setError(null);
         setSuccess(null);
         
-        // Validaciones
         if (username.length < 6 || username.length > 20 || !/^[a-zA-Z0-9]+$/.test(username)) {
             setError("El nombre de usuario debe tener entre 6 y 20 caracteres alfanuméricos.");
             return;
@@ -23,14 +22,10 @@ function RegistroPage() {
             return;
         }
 
-        api.post('/register',{
-                nombre_usuario: username,
-                clave: password
-            }).then(function (response){
-                // Si llega aca -> solicitud exitosa
-            setSuccess("Registro exitoso. Ahora puedes iniciar sesión.");
-            setUsername('');
-            setPassword('');
+        api.post('/register',{ nombre_usuario: username, clave: password }).then(function (response){
+                setSuccess("Registro exitoso. Ahora puedes iniciar sesión.");
+                setUsername('');
+                setPassword('');
             })
             .catch(() => {
                 setError("Hubo un problema con el registro. Intenta nuevamente.");
@@ -40,6 +35,8 @@ function RegistroPage() {
     return (
         <div className="registro-page">
             <h2>Registro de Usuario</h2>
+            {error && <div className="error-message">{error}</div>}
+            {success && <div className="success-message">{success}</div>}
             {/* onSubmit "captura" el evento de clic o enter en el boton de registrarse y llama a la funcion handleRegistro*/}
             <form onSubmit={handleRegistro} className="registro-form">
                 <div>
@@ -61,8 +58,6 @@ function RegistroPage() {
                 </div>
                 <button type="submit">Registrarse</button>
             </form>
-            {error && <div className="error-message">{error}</div>}
-            {success && <div className="success-message">{success}</div>}
         </div>
     );
 }

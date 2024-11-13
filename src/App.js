@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { UserProvider } from './pages/pagesLogin/userContext'; // Importar el contexto
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import NavBarComponent from './components/NavBarComponent';
@@ -15,7 +14,6 @@ import SoporteJuego from './pages/pagesJuego/soporteJuego';
 function App() {
 
   return (
-    <UserProvider>
       <Router>
         <HeaderComponent />
         <NavBarComponent />
@@ -38,7 +36,6 @@ function App() {
         </Routes>
         <FooterComponent />
       </Router>
-    </UserProvider>
   );
 }
 

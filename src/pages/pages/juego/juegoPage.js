@@ -59,6 +59,9 @@ function JuegoPage() {
         fetchGameData();
     }, [fetchGameData]);
 
+    // Función para avanzar a la siguiente página
+    // Math.ceil = obtiene el número exacto de páginas necesarias para mostrar todos los elementos.
+    // lo hace redondeando el resultado hacia arriba al número entero más cercano. (osea si da 2.5, toma como resultado el 3 entonces muestra 3 paginas)
     const handlePaginaSiguiente = () => {
         if (pagina < Math.ceil(total / juegosPorPagina)) {
             setPagina((prevPagina) => prevPagina + 1);
