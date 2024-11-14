@@ -13,13 +13,13 @@ function LoginPage() {
     // Función para decodificar y parsear el token personalizado
     const decodificarToken = (tokenBase64) => {
         try {
-        // Decodificar la cadena Base64
-        const jsonString = atob(tokenBase64);
+        // Decodifica la cadena Base64
+        const jsonToken = atob(tokenBase64);
         // Parsear la cadena decodificada a un objeto JSON
-        return JSON.parse(jsonString);
+        return JSON.parse(jsonToken);
         } catch (error) {
             console.error('Error al decodificar el token:', error);
-            return null; // Retornar null si ocurre algún error
+            return null;
         }
   };
 

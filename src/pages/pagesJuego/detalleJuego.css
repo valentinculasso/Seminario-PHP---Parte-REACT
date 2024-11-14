@@ -46,3 +46,12 @@
     text-align: center;
     margin-top: 20px;
 }
+
+.detalle-juego-imagen {
+    display: block;
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    margin: 10px 0; /* Añade un poco de espacio alrededor de la imagen */
+    border-radius: 8px; /* Bordes redondeados para que coincida con el contenedor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra similar a la del contenedor */
+}

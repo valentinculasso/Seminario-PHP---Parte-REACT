@@ -16,6 +16,18 @@ function AltaJuego() {
 
     const opcionesClasificacion = ['ATP', '+13', '+18'];
 
+    // Función para convertir la imagen a base64
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const data = new FileReader();
+        data.onloadend = () => {
+            setImagen(data.result); // Aquí almacenamos la imagen en base64
+        };
+        if (file) {
+            data.readAsDataURL(file);
+        }
+    };
+
     // Manejador de envío del formulario
     const handleSubmitGame = (e) => {
         e.preventDefault();
@@ -72,12 +84,12 @@ function AltaJuego() {
                 </div>
                 <div>
                     <label>Imagen:</label>
-                        <input
-                            type="text"
-                            value={imagen} 
-                            onChange={(e) => setImagen(e.target.value)} 
+                        <input 
+                            type="file" 
+                            accept="image/jpeg" 
+                            onChange={handleImageChange} 
                             required 
-                    />
+                        />
                 </div>
                 <div>
                     <label>Clasificación por Edad:</label>
@@ -92,23 +104,5 @@ function AltaJuego() {
         </div>
     );  
 }
-
-/* 
-    <label>Imagen:</label>
-                    <input
-                        type="text"
-                        value={imagen} 
-                        onChange={(e) => setImagen(e.target.value)} 
-                        required 
-                    />
-
-    <label>Imagen:</label>
-                    <input 
-                        type="file" 
-                        accept="image/jpeg" 
-                        onChange={(e) => setImagen(e.target.files[0])} 
-                        required 
-                    />
-*/
 
 export default AltaJuego;

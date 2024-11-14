@@ -16,6 +16,7 @@ function DetalleJuego() {
         api.get(`/juegos/${id}`)
             .then((response) => {
                 setJuego(response.data);
+                console.log(response.data.imagen);
                 setError(null);
             })
             .catch((error) => {
@@ -29,9 +30,11 @@ function DetalleJuego() {
 
     return (
         <div className="detalle-juego-container">
+            
             <div className="detalle-juego-header">
-                <h2>{juego.nombre_juego}</h2>
+                <h2>{juego.nombre}</h2>
             </div>
+
             <ul className="detalle-juego-info">
                 <li>
                     <span className="detalle-juego-label">Nombre del juego:</span> {juego.nombre}
@@ -43,7 +46,16 @@ function DetalleJuego() {
                     <span className="detalle-juego-label">Descripcion:</span> {juego.descripcion}
                 </li>
                 <li>
-                    <span className="detalle-juego-label">Imagen:</span> {juego.imagen}
+                    <span className="detalle-juego-label">Imagen:</span>
+                    {juego.imagen ? (
+                        <img
+                            ng-src={`data:image/jpeg;base64,${juego.imagen}`} 
+                            alt={juego.nombre} 
+                            className="detalle-juego-imagen" 
+                        />
+                    ) : (
+                        "No disponible"
+                    )}
                 </li>
                 <li>
                     <span className="detalle-juego-label">Clasificacion por edad:</span> {juego.clasificacion_edad}
