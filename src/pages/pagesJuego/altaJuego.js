@@ -21,7 +21,7 @@ function AltaJuego() {
         const file = e.target.files[0];
         const data = new FileReader();
         data.onloadend = () => {
-            setImagen(data.result); // Aquí almacenamos la imagen en base64
+            setImagen(data.result); // imagen en base64
         };
         if (file) {
             data.readAsDataURL(file);

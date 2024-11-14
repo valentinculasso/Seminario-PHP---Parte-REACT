@@ -19,7 +19,7 @@ function DetalleJuego() {
                 console.log(response.data.imagen);
                 setError(null);
             })
-            .catch((error) => {
+            .catch(() => {
                 setError("Hubo un problema al cargar los detalles del juego.");
             })
     };
