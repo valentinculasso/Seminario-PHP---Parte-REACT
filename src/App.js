@@ -11,10 +11,6 @@ import SoporteJuego from './pages/pagesJuego/soporteJuego';
 import LoginPage from './pages/pagesLogin/loginPage';
 import RegisterPage from './pages/pagesRegistro/registerPage';
 
-import CalificacionPage from './pages/pagesCalificacion/calificacionPage';
-
-
-
 function App() {
 
   return (
@@ -24,8 +20,6 @@ function App() {
         <Routes>
 
           <Route path="/" element={<JuegoPage/>} />
-
-          <Route path="/calificacion" element={<CalificacionPage/>} />
 
           <Route path="/juego" element={<AltaJuego/>} />
 

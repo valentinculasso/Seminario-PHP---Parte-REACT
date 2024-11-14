@@ -31,11 +31,13 @@ function LoginPage() {
             .then((response) => {
                 const token = response.data;
                 const datosToken = decodificarToken(token);
+                const userID = datosToken.id;
                 const vencimiento = datosToken.date;
                 const admin = datosToken.admin;
                 //
                 localStorage.setItem('token', token);
                 localStorage.setItem('username', username);
+                localStorage.setItem('id', userID);
                 localStorage.setItem('vencimiento', vencimiento);
                 localStorage.setItem('es_admin', admin);
                 navigate('/');

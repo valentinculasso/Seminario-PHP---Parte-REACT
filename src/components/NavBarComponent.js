@@ -11,6 +11,8 @@ function NavBarComponent() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('id');
+    localStorage.removeItem('vencimiento');
     localStorage.removeItem('es_admin');
     navigate('/');
   }
@@ -26,8 +28,6 @@ function NavBarComponent() {
       ) : (
         <>
           <Link to="/" className="nav-link">Inicio</Link>
-
-          <Link to="/calificacion" className="nav-link">Calificar juego</Link>
           
           {/* Muestra "Dar de alta juego" solo si es admin */}
           {localStorage.getItem('es_admin') === '1' && (
