@@ -26,16 +26,19 @@ function LoginPage() {
     const handleLogin = (e) => {
         e.preventDefault();
         setError(null);
-    
+        console.log(username, password);
         api.post('/login' , {nombre_usuario: username, clave: password})
             .then((response) => {
                 const token = response.data;
+                console.log(token);
                 const datosToken = decodificarToken(token);
                 const userID = datosToken.id;
                 const vencimiento = datosToken.date;
                 const admin = datosToken.admin;
                 //
                 localStorage.setItem('token', token);
+                // usar los 4 de abajo en "profile"
+                //json.stringify
                 localStorage.setItem('username', username);
                 localStorage.setItem('id', userID);
                 localStorage.setItem('vencimiento', vencimiento);

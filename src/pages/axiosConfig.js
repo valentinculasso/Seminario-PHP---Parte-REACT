@@ -19,18 +19,15 @@ export const checkSesion = () => {
     if (token) {
       const vencimiento = new Date(localStorage.getItem('vencimiento'));
       const fechaActual = new Date();
-      //console.log(vencimiento);
-      //console.log(fechaActual);
-      if(!vencimiento){ // Este chequeo seria absurdo ? Porque si tengo token SI O SI voy a tener un vencimiento
-        return false;
-      }
+      console.log(vencimiento);
+      console.log(fechaActual);
+
       if(fechaActual > vencimiento){
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         localStorage.removeItem('id');
         localStorage.removeItem('vencimiento');
         localStorage.removeItem('es_admin');
-        // me deberia redirigir a la pagina de inicio ? -> porque si estoy en alta de un juego o calificacion me puede seguir mostrando en la pantalla dichas cosas
         return false;
       }
       return true;

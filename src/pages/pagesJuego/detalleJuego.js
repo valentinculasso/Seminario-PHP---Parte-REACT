@@ -49,7 +49,7 @@ function DetalleJuego() {
                     <span className="detalle-juego-label">Imagen:</span>
                     {juego.imagen ? (
                         <img
-                            ng-src={`data:image/jpeg;base64,${juego.imagen}`} 
+                            src={juego.imagen}
                             alt={juego.nombre} 
                             className="detalle-juego-imagen" 
                         />
