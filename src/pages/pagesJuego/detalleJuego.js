@@ -76,7 +76,6 @@ function DetalleJuego() {
 
     // Espacio para hacer una funcion get -> esta funcion la deberian llamar handleSubmit y handleDelete 
     const listAllCalification = () => {
-        setAuthHeader();
         api.get(`/calificacionescompletas/${id}`)
             .then((response) => {
                 setListaAllCalificacion(response.data);
