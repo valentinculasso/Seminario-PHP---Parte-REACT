@@ -14,7 +14,7 @@ function SoporteJuego() {
     // Usamos useEffect para cargar el id desde localStorage cuando el componente se monta
     useEffect(() => {
         const storedID = localStorage.getItem('juego_id');
-        console.log('ID almacenado:', storedID); // Muestro en consola el id para ver si lo trae
+        console.log('ID que recupero en soporte:', storedID); // Muestro en consola el id para ver si lo trae
         if (storedID) {
             setID(storedID); // seteamos el id
         }

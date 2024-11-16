@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api, { checkSesion } from '../axiosConfig';
-import CalificacionForm from './CalificacionForm';
+// import CalificacionForm from './CalificacionForm';
 import './juegoPage.css';
 
 function JuegoPage() {
-    //
     const [juegos, setJuegos] = useState([]);
     const [pagina, setPagina] = useState(1);
     const [total, setTotal] = useState(0);
@@ -37,11 +36,9 @@ function JuegoPage() {
                 setError(null);
             })
             .catch((error) => {
-                if (error.response && error.response.status === 404) {
-                    setError("No hay juegos que mostrar en esta página.");
-                } else {
-                    setError("Hubo un problema al cargar los juegos.");
-                }
+                (error.response && error.response.status === 404)
+                    ? setError("No hay juegos que mostrar en esta página.")
+                    : setError("Hubo un problema al cargar los juegos.");
                 setJuegos([]);
             });
     }, [pagina, texto, plataforma, clasificacion]);
@@ -63,6 +60,12 @@ function JuegoPage() {
         }
     };
 
+    // La idea es simple, al hacerle click me guarda el id para que /calificacion ya lo acceda y "identifique" automaticamente el juego que esta calificando el usuario
+    const handleButton = (juego_id) => {
+        localStorage.setItem('juegoPage_id', juego_id);
+        console.log('ID almacenado en localstorage en juegoPage: ',juego_id);
+    }
+
     return (
         <div className="juego-page">
             {/* Formulario de filtros */}
@@ -81,6 +84,9 @@ function JuegoPage() {
                         <th>Clasificacion por edad</th>
                         <th>Plataforma</th>
                         <th>Calificación Promedio</th>
+                        {checkSesion() &&
+                            <th>Calificar!</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +97,9 @@ function JuegoPage() {
                             <td>{juego.clasificacion_edad}</td>
                             <td>{juego.nombre_plataforma}</td>
                             <td>{juego.calificacion_promedio}</td>
+                            {checkSesion() &&
+                                <td><Link to={'/calificacion'}><button type="button" onClick={() => handleButton(juego.id_juego)}>Calificar!</button></Link></td>
+                            }
                         </tr>
                     ))}
                 </tbody>
@@ -105,10 +114,6 @@ function JuegoPage() {
                 <span className="pagination-info">Página {pagina}</span>
                 <button onClick={handlePaginaSiguiente} disabled={pagina >= Math.ceil(total / juegosPorPagina)}className="pagination-button">Siguiente</button>
             </div>
-            
-            {checkSesion() &&
-                <CalificacionForm juegos={juegos} />
-            }
         </div>
     );
 }

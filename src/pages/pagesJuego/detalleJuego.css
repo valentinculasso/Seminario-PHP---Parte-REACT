@@ -54,3 +54,63 @@
     margin: 10px 0;
     border-radius: 8px;
 }
+
+.calificacion-table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: separate; /* Cambiar a 'separate' para bordes redondeados */
+    border-spacing: 0;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que el borde redondeado se aplique correctamente */
+    background-color: #ffffff;
+}
+
+.calificacion-table th, 
+.calificacion-table td {
+    border: none; /* Quitamos los bordes internos para un diseño limpio */
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.calificacion-table th {
+    background-color: #0078d4; /* Color de encabezado llamativo */
+    color: #ffffff; /* Texto blanco para contraste */
+    font-weight: bold;
+    text-transform: uppercase; /* Mayúsculas en encabezados */
+}
+
+.calificacion-table tr:nth-child(even) {
+    background-color: #f4f6f8; /* Color de fondo para filas pares */
+}
+
+.calificacion-table tr:hover {
+    background-color: #eaf2f8; /* Color de fondo al pasar el cursor */
+    transition: background-color 0.3s; /* Suaviza el cambio de color */
+}
+
+.calificacion-table td {
+    color: #555; /* Color del texto */
+}
+
+.calificacion-table th:first-child, 
+.calificacion-table td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.calificacion-table th:last-child, 
+.calificacion-table td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.highlight-row {
+    background-color: #ffeb3b; /* Fondo amarillo */
+    font-weight: bold;
+    color: #000; /* Texto negro */
+    transition: background-color 0.3s ease;
+}

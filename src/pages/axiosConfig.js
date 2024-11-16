@@ -19,8 +19,9 @@ export const checkSesion = () => {
     if (token) {
       const vencimiento = new Date(localStorage.getItem('vencimiento'));
       const fechaActual = new Date();
-      console.log(vencimiento);
-      console.log(fechaActual);
+      
+      // console.log(vencimiento);
+      // console.log(fechaActual);
 
       if(fechaActual > vencimiento){
         localStorage.removeItem('token');
