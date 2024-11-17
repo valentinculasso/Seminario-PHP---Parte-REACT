@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react';
 import api, { setAuthHeader } from '../axiosConfig';
-import './calificacionPage.css';
+import '../styles/calificacionPage.css';
 
 function CalificacionPage() {
     const [juegoID, setJuegoID] = useState('');
@@ -12,17 +12,15 @@ function CalificacionPage() {
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
 
-    // Usamos useEffect para cargar el id desde localStorage cuando el componente se monta
     useEffect(() => {
-        listCalification(); // Se ejecuta el get (actualiza la lista de calificaciones)
+        listCalification();
         const storedID = localStorage.getItem('juegoPage_id');
-        console.log('ID que recupero en calificacionPage:', storedID); // Muestro en consola el id para ver si lo trae
+        console.log('ID que recupero en calificacionPage:', storedID);
         if (storedID) {
-            setJuegoID(storedID); // seteamos el id
+            setJuegoID(storedID);
         }
-    }, []); // El array vacío asegura que esto solo se ejecute al montar el componente
+    }, []);
 
-    // Espacio para hacer una funcion get -> esta funcion la deberian llamar handleSubmit y handleDelete 
     const listCalification = () => {
         setAuthHeader();
         api.get('/calificaciones')
@@ -34,7 +32,7 @@ function CalificacionPage() {
                 setError('No se pudieron cargar las calificaciones del usuario.');
             });
     }
-    // Enviar calificacion // Editar calificacion
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setAuthHeader();
@@ -55,7 +53,7 @@ function CalificacionPage() {
                 setError(null);
                 setJuegoID('');
                 setEstrellas(0);
-                listCalification(); // Se ejecuta el get (actualiza la lista de calificaciones)
+                listCalification();
             })
             .catch(() => {
                 setError('Hubo un error al enviar la calificación.');
@@ -64,7 +62,7 @@ function CalificacionPage() {
                 setSuccessMessage('');
             });
     };
-    // Eliminar calificacion
+
     const handleDelete = (e) => {
         e.preventDefault();
         setAuthHeader();
@@ -76,7 +74,7 @@ function CalificacionPage() {
                 setSuccessMessage('Calificación eliminada correctamente!');
                 setCalificacionExistente(null);
                 setError(null);
-                listCalification(); // Se ejecuta el get (actualiza la lista de calificaciones)
+                listCalification();
             })
             .catch(() => {
                 setError('No se pudo eliminar la calificación.');

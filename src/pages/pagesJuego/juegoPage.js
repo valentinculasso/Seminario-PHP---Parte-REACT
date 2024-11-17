@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api, { checkSesion } from '../axiosConfig';
-// import CalificacionForm from './CalificacionForm';
-import './juegoPage.css';
+import PaginationButtonsComponent from '../../components/paginationButtonsComponent';
+import '../styles/juegoPage.css';
 
 function JuegoPage() {
     const [juegos, setJuegos] = useState([]);
@@ -14,15 +14,12 @@ function JuegoPage() {
     const [plataforma, setPlataforma] = useState('');
     const [clasificacion, setClasificacion] = useState('');
 
-    const juegosPorPagina = 5;
 
-    // useEffect para actualizar la página cuando cambian los filtros
     useEffect(() => {
         setPagina(1);
     }, [texto, plataforma, clasificacion]);
 
     const fetchGameData = useCallback(() => {
-        // Para manejar los parametros mas facil uso URLSearchParams, creo una cadena de consulta queryParams con los parametros
         const queryParams = new URLSearchParams({
             pagina,
             texto: texto,
@@ -32,7 +29,7 @@ function JuegoPage() {
         api.get(`/juegos?${queryParams.toString()}`)
             .then((response) => {
                 setJuegos(response.data.result);
-                setTotal(response.data.total);
+                setTotal(Number(response.data.total));
                 setError(null);
             })
             .catch((error) => {
@@ -43,24 +40,10 @@ function JuegoPage() {
             });
     }, [pagina, texto, plataforma, clasificacion]);
 
-    // Llama a fetchGameData cada vez que los filtros o la página cambian
     useEffect(() => {
         fetchGameData();
     }, [fetchGameData]);
 
-    const handlePaginaSiguiente = () => {
-        if (pagina < Math.ceil(total / juegosPorPagina)) {
-            setPagina((prevPagina) => prevPagina + 1);
-        }
-    };
-
-    const handlePaginaAnterior = () => {
-        if (pagina > 1) {
-            setPagina((prevPagina) => prevPagina - 1);
-        }
-    };
-
-    // La idea es simple, al hacerle click me guarda el id para que /calificacion ya lo acceda y "identifique" automaticamente el juego que esta calificando el usuario
     const handleButton = (juego_id) => {
         localStorage.setItem('juegoPage_id', juego_id);
         console.log('ID almacenado en localstorage en juegoPage: ',juego_id);
@@ -109,11 +92,11 @@ function JuegoPage() {
             {error && <div className="error-message">{error}</div>}
 
             {/* Controles de paginación */}
-            <div className="pagination-controls">
-                <button onClick={handlePaginaAnterior} disabled={pagina === 1} className="pagination-button">Anterior</button>
-                <span className="pagination-info">Página {pagina}</span>
-                <button onClick={handlePaginaSiguiente} disabled={pagina >= Math.ceil(total / juegosPorPagina)}className="pagination-button">Siguiente</button>
-            </div>
+            <PaginationButtonsComponent
+                paginaActual={pagina}
+                total={total}
+                onPageChange={setPagina}
+            />
         </div>
     );
 }

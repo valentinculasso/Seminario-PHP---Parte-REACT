@@ -3,14 +3,14 @@ header {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #282c34; /* Color de fondo */
-    color: white; /* Color del texto */
+    background-color: #282c34;
+    color: white;
     height: 100px;
   }
   
   .logo {
-    height: 50px; /* Altura de la imagen */
-    margin-bottom: 10px; /* Espacio a la derecha de la imagen */
+    height: 50px;
+    margin-bottom: 10px;
   }
 
   h1{

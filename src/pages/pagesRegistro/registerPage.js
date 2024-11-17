@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../axiosConfig';
-import './RegisterPage.css'; // Asegúrate de tener un archivo de estilos
+import '../styles/RegisterPage.css';
 
 function RegistroPage() {
     const [username, setUsername] = useState('');
@@ -9,7 +9,7 @@ function RegistroPage() {
     const [success, setSuccess] = useState(null);   
 
     const handleRegistro = (e) => {
-        e.preventDefault(); // Previene el envío predeterminado del formulario y recarga de la página
+        e.preventDefault();
         setError(null);
         setSuccess(null);
         
@@ -37,14 +37,12 @@ function RegistroPage() {
             <h2>Registro de Usuario</h2>
             {error && <div className="error-message">{error}</div>}
             {success && <div className="success-message">{success}</div>}
-            {/* onSubmit "captura" el evento de clic o enter en el boton de registrarse y llama a la funcion handleRegistro*/}
             <form onSubmit={handleRegistro} className="registro-form">
                 <div>
                     <label>Nombre de Usuario:</label>
                     <input
                         type="text"
                         value={username}
-                        /* onChange: es un evento de React, se avtica cada vez que cambia el valor de un campo de entrada*/
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>

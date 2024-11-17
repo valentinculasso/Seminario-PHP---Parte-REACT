@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../axiosConfig';
-import './LoginPage.css';
+import '../styles/LoginPage.css';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
@@ -10,12 +10,10 @@ function LoginPage() {
 
     const navigate = useNavigate();
 
-    // Función para decodificar y parsear el token personalizado
+
     const decodificarToken = (tokenBase64) => {
         try {
-        // Decodifica la cadena Base64
         const jsonToken = atob(tokenBase64);
-        // Parsear la cadena decodificada a un objeto JSON
         return JSON.parse(jsonToken);
         } catch (error) {
             console.error('Error al decodificar el token:', error);

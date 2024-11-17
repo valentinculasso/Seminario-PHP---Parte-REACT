@@ -6,14 +6,12 @@ import NavBarComponent from './components/NavBarComponent';
 import JuegoPage from './pages/pagesJuego/juegoPage';
 import DetalleJuego from './pages/pagesJuego/detalleJuego';
 import AltaJuego from './pages/pagesJuego/altaJuego';
-import SoporteJuego from './pages/pagesJuego/soporteJuego';
 //
 import LoginPage from './pages/pagesLogin/loginPage';
 import RegisterPage from './pages/pagesRegistro/registerPage';
 import CalificacionPage from './pages/pagesCalificacion/calificacionPage';
 
 function App() {
-
   return (
       <Router>
         <HeaderComponent />
@@ -26,8 +24,6 @@ function App() {
 
           <Route path="/juego" element={<AltaJuego/>} />
 
-          <Route path="/soporte" element={<SoporteJuego/>} />
-
           <Route path="/juegos/:id" element={<DetalleJuego/>} />
 
           <Route path="/register" element={<RegisterPage/>} />
@@ -39,5 +35,4 @@ function App() {
       </Router>
   );
 }
-
 export default App;

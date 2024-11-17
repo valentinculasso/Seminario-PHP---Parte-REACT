@@ -3,8 +3,8 @@
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    background-color: #282c34; /* Color de fondo */
-    color: white; /* Color del texto */
+    background-color: #282c34;
+    color: white;
     height: 70px;
   }
 
