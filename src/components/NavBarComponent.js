@@ -6,7 +6,7 @@ import { checkSesion } from '../pages/axiosConfig';
 
 function NavBarComponent() {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
     localStorage.removeItem('token');

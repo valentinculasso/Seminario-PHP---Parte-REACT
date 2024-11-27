@@ -165,7 +165,7 @@ function DetalleJuego() {
                                                     >
                                                         <td>{calificacion.id}</td>
                                                         <td>{calificacion.estrellas}</td>
-                                                        <td>{calificacion.usuario_id}</td>
+                                                        <td>{localStorage.getItem('username')}</td>
                                                         <td>{calificacion.juego_id}</td>
                                                     </tr>
                                                 ))

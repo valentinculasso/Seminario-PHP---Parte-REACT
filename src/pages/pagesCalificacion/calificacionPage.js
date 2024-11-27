@@ -5,7 +5,6 @@ import '../styles/calificacionPage.css';
 function CalificacionPage() {
     const [juegoID, setJuegoID] = useState('');
     const [estrellas, setEstrellas] = useState(0);
-    const [calificacionID, setCalificacionID] = useState(null);
     const [calificacionExistente, setCalificacionExistente] = useState(null);
     const [listaCalificacion, setListaCalificacion] = useState([]);
     //
@@ -15,11 +14,25 @@ function CalificacionPage() {
     useEffect(() => {
         listCalification();
         const storedID = localStorage.getItem('juegoPage_id');
-        console.log('ID que recupero en calificacionPage:', storedID);
         if (storedID) {
             setJuegoID(storedID);
         }
     }, []);
+
+    useEffect(() => {
+        if (juegoID) {
+            const calificacionExistente = listaCalificacion.find((calificacion) => calificacion.juego_id === juegoID);
+            setCalificacionExistente(calificacionExistente);
+            setError(null);
+        }
+    }, [listaCalificacion, juegoID]); // Aca el juegoID seria absurdo porque si estoy en la pagina de calificacion en teoria nunca va a cambiar
+
+    useEffect(() => {
+        if (successMessage) {
+            const timer = setTimeout(() => setSuccessMessage(''), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [successMessage]);
 
     const listCalification = () => {
         setAuthHeader();
@@ -36,24 +49,22 @@ function CalificacionPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setAuthHeader();
-        if (juegoID === '' || estrellas < 1 || estrellas > 5) {
+        if ( !juegoID || estrellas < 1 || estrellas > 5) {
             setError('Por favor, completa todos los campos correctamente.');
             return;
         }
-        if(calificacionExistente){
-            setCalificacionID(calificacionExistente.id);
-        }
+        
         const request = calificacionExistente
-            ? api.put(`/calificacion/${calificacionID}`, { juego_id: juegoID, estrellas: estrellas })
+            ? api.put(`/calificacion/${calificacionExistente.id}`, { juego_id: juegoID, estrellas: estrellas })
             : api.post('/calificacion', { juego_id: juegoID, estrellas: estrellas });
 
         request
             .then(() => {
                 setSuccessMessage('Calificación enviada correctamente!');
                 setError(null);
-                setJuegoID('');
+                // setJuegoID(''); YO ACA ESTABA SETIANDO EN VACIO EL ID Y LO ESTABA PERDIENDO
                 setEstrellas(0);
-                listCalification();
+                listCalification(); // Si yo llamo a actualizar la lista... ¿Porque no se ejecuta el useEffect para cambiar los botones? - Solucionado
             })
             .catch(() => {
                 setError('Hubo un error al enviar la calificación.');
@@ -69,7 +80,7 @@ function CalificacionPage() {
         const calificacionID = calificacionExistente.id;
         api.delete(`/calificacion/${calificacionID}`)
             .then(() => {
-                setJuegoID('');
+                // setJuegoID(''); Nuevamente, si seteo el juegoID lo pierdo y entonces ya no puedo volver a calificar
                 setEstrellas(0);
                 setSuccessMessage('Calificación eliminada correctamente!');
                 setCalificacionExistente(null);
@@ -83,13 +94,7 @@ function CalificacionPage() {
                 setSuccessMessage('');
             });
     };
-    useEffect(() => {
-        if (juegoID) {
-            const calificacionExistente = listaCalificacion.find((calificacion) => calificacion.juego_id === juegoID);
-            setCalificacionExistente(calificacionExistente);
-            setError(null);
-        }
-    }, [listaCalificacion, juegoID]);
+    
 
     return (
         <div className="calificacion-page">

@@ -9,7 +9,7 @@ function AltaJuego() {
     const [nombre, setNombre] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [imagen, setImagen] = useState('');
-    const [clasificacionEdad, setClasificacionEdad] = useState('ATP');
+    const [clasificacionEdad, setClasificacionEdad] = useState(' ');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [plataforma, setPlataforma] = useState([]);
@@ -17,7 +17,7 @@ function AltaJuego() {
     // ABAJO CHECKBOX
     const [seleccionados, setSeleccionados] = useState([]);
 
-    const opcionesClasificacion = ['ATP', '+13', '+18'];
+    const opcionesClasificacion = [' ', 'ATP', '+13', '+18'];
 
     useEffect(() => {
         handlePlataforma();

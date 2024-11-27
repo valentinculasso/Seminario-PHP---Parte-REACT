@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
 import api from '../axiosConfig';
 import '../styles/RegisterPage.css';
 
@@ -6,7 +7,16 @@ function RegistroPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);   
+    const [success, setSuccess] = useState(null);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        setUsername('');
+        setPassword('');
+        setError(null);
+        setSuccess(null);
+    }, [location]);
 
     const handleRegistro = (e) => {
         e.preventDefault();
@@ -17,7 +27,7 @@ function RegistroPage() {
             setError("El nombre de usuario debe tener entre 6 y 20 caracteres alfanuméricos.");
             return;
         }
-        if (password.length < 8 || !/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])/g.test(password)) {
+        if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/g.test(password)) {
             setError("La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales.");
             return;
         }
@@ -27,8 +37,12 @@ function RegistroPage() {
                 setUsername('');
                 setPassword('');
             })
-            .catch(() => {
-                setError("Hubo un problema con el registro. Intenta nuevamente.");
+            .catch((err) => {
+                if (err.response && err.response.status === 401) {
+                    setError("El nombre de usuario ya existe!")
+                } else{
+                    setError("Hubo un problema con el registro. Intenta nuevamente.");
+                }
             });
     };
 
