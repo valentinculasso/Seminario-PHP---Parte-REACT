@@ -16,16 +16,12 @@ function DetalleJuego() {
     const [errorCalificaciones, setErrorCalificaciones] = useState(null);
 
     useEffect(() => {
-        console.log('Hola soy fetchGame y me ejecute');
         fetchGame(id);
     }, [id]);
 
     useEffect(() => {
-        console.log('Hola soy listAllCalification y me ejecute');
         listAllCalification();
-        console.log('Hola soy checkSesion y me ejecute');
         if (checkSesion()) {
-            console.log('Hola soy listCalificationUser y me ejecute');
             listCalificationUser();
         }
     }, [pagina]);
@@ -40,10 +36,8 @@ function DetalleJuego() {
 
     const checkCalification = () => {
         const calificacionesDestacadas = listaAllCalificacion.map((calificacion) => {
-            const esDelUsuario = listaCalificacion.some(
-                (userCalificacion) =>
-                    userCalificacion.juego_id === calificacion.juego_id &&
-                    userCalificacion.usuario_id === calificacion.usuario_id
+            const esDelUsuario = listaCalificacion.some((userCalificacion) =>
+                userCalificacion.juego_id === calificacion.juego_id && userCalificacion.usuario_id === calificacion.usuario_id
             );
             return { ...calificacion, esDelUsuario }; 
         });
@@ -54,6 +48,10 @@ function DetalleJuego() {
 
     /*  
         id / estrellas / user_id / juego_id / esDelUsuario
+        
+        1       3           1          1         true
+        2       5           2          2         false
+        
     */
 
     const fetchGame = (id) => {

@@ -58,18 +58,18 @@
 .calificacion-table {
     width: 100%;
     max-width: 800px;
-    border-collapse: separate; /* Cambiar a 'separate' para bordes redondeados */
+    border-collapse: separate;
     border-spacing: 0;
     margin: 20px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow: hidden; /* Asegura que el borde redondeado se aplique correctamente */
+    overflow: hidden;
     background-color: #ffffff;
 }
 
 .calificacion-table th, 
 .calificacion-table td {
-    border: none; /* Quitamos los bordes internos para un diseño limpio */
+    border: none;
     padding: 12px 16px;
     text-align: center;
     font-size: 14px;
@@ -77,23 +77,23 @@
 }
 
 .calificacion-table th {
-    background-color: #0078d4; /* Color de encabezado llamativo */
-    color: #ffffff; /* Texto blanco para contraste */
+    background-color: #0078d4;
+    color: #ffffff;
     font-weight: bold;
-    text-transform: uppercase; /* Mayúsculas en encabezados */
+    text-transform: uppercase;
 }
 
 .calificacion-table tr:nth-child(even) {
-    background-color: #f4f6f8; /* Color de fondo para filas pares */
+    background-color: #f4f6f8;
 }
 
 .calificacion-table tr:hover {
-    background-color: #eaf2f8; /* Color de fondo al pasar el cursor */
-    transition: background-color 0.3s; /* Suaviza el cambio de color */
+    background-color: #eaf2f8;
+    transition: background-color 0.3s;
 }
 
 .calificacion-table td {
-    color: #555; /* Color del texto */
+    color: #555;
 }
 
 .calificacion-table th:first-child, 
@@ -109,8 +109,8 @@
 }
 
 .highlight-row {
-    background-color: #ffeb3b; /* Fondo amarillo */
+    background-color: #ffeb3b;
     font-weight: bold;
-    color: #000; /* Texto negro */
+    color: #000;
     transition: background-color 0.3s ease;
 }

@@ -1,6 +1,6 @@
 .nuevo-juego-form {
-    max-width: 450px;                /* Limita el ancho del formulario */
-    margin: 50px auto;               /* Centra el formulario en la página */
+    max-width: 450px;
+    margin: 50px auto;    
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;

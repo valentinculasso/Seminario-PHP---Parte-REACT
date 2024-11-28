@@ -79,9 +79,9 @@
     color: red;
     font-weight: bold;
     margin: 20px 0;
-    text-align: center; /* Centra el mensaje de error */
-    width: 100%; /* Asegura que el mensaje ocupe el ancho completo */
-    max-width: 800px; /* Limita el ancho máximo del mensaje */
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
 }
 
 /* Estilo para el mensaje de error */
@@ -89,9 +89,9 @@
     color: white;
     font-weight: bold;
     margin: 20px 0;
-    text-align: center; /* Centra el mensaje de error */
-    width: 100%; /* Asegura que el mensaje ocupe el ancho completo */
-    max-width: 800px; /* Limita el ancho máximo del mensaje */
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
 }
 
 /* ----------------------- */
