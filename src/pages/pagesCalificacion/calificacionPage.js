@@ -7,6 +7,7 @@ function CalificacionPage() {
     const [estrellas, setEstrellas] = useState(0);
     const [calificacionExistente, setCalificacionExistente] = useState(null);
     const [listaCalificacion, setListaCalificacion] = useState([]);
+    const [calificacionActual, setCalificacionActual] = useState(0);
     //
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
@@ -23,6 +24,18 @@ function CalificacionPage() {
         if (juegoID) {
             const calificacionExistente = listaCalificacion.find((calificacion) => calificacion.juego_id === juegoID);
             setCalificacionExistente(calificacionExistente);
+            console.log(calificacionExistente);
+            if(calificacionExistente){
+                const calificacionAct = listaCalificacion.map((calificacion) => {
+                    if(calificacion.juegoID === juegoID){
+                        return(calificacion.estrellas);
+                    }
+                });
+                console.log(calificacionAct);
+                if(calificacionAct){
+                    setCalificacionActual(calificacionAct);
+                }
+            }
             setError(null);
         }
     }, [listaCalificacion, juegoID]); // Aca el juegoID seria absurdo porque si estoy en la pagina de calificacion en teoria nunca va a cambiar
@@ -62,9 +75,8 @@ function CalificacionPage() {
             .then(() => {
                 setSuccessMessage('Calificación enviada correctamente!');
                 setError(null);
-                // setJuegoID(''); YO ACA ESTABA SETIANDO EN VACIO EL ID Y LO ESTABA PERDIENDO
                 setEstrellas(0);
-                listCalification(); // Si yo llamo a actualizar la lista... ¿Porque no se ejecuta el useEffect para cambiar los botones? - Solucionado
+                listCalification();
             })
             .catch(() => {
                 setError('Hubo un error al enviar la calificación.');
@@ -80,7 +92,6 @@ function CalificacionPage() {
         const calificacionID = calificacionExistente.id;
         api.delete(`/calificacion/${calificacionID}`)
             .then(() => {
-                // setJuegoID(''); Nuevamente, si seteo el juegoID lo pierdo y entonces ya no puedo volver a calificar
                 setEstrellas(0);
                 setSuccessMessage('Calificación eliminada correctamente!');
                 setCalificacionExistente(null);
@@ -107,12 +118,13 @@ function CalificacionPage() {
             {/* Formulario de calificación */}
             <form onSubmit={handleSubmit} className="calificacion-form">           
                 <div>
-                    <label>Estrellas (1-5):</label>
+                    <h3>Puntaje actual: {calificacionActual}</h3>
+                    <h3>Ingrese la calificacion: (1-5 Estrellas):</h3>
                     <input 
                         type="number" 
                         min="1" 
                         max="5" 
-                        value={estrellas} 
+                        value={estrellas}
                         onChange={(e) => setEstrellas(e.target.value)} 
                         required 
                     />
