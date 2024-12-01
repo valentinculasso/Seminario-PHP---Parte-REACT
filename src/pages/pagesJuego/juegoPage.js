@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import api, { checkSesion } from '../axiosConfig';
+import api, { setAuthHeader, checkSesion } from '../axiosConfig';
 import PaginationButtonsComponent from '../../components/paginationButtonsComponent';
 import '../styles/juegoPage.css';
 
@@ -13,19 +13,45 @@ function JuegoPage() {
     const [texto, setTexto] = useState('');
     const [plataforma, setPlataforma] = useState('');
     const [clasificacion, setClasificacion] = useState('');
-
+    //
+    const opcionesClasificacion = [' ', 'ATP', '+13', '+18'];
+    const [opcionesPlataforma, setOpcionesPlataforma] = useState([]);
 
     useEffect(() => {
         setPagina(1);
     }, [texto, plataforma, clasificacion]);
 
+    useEffect(() => {
+        handlePlataforma();
+    },[]);
+
+    // GET plataformas
+    const handlePlataforma = () => {
+        setAuthHeader();
+        api.get('/plataforma')
+            .then((response) => {
+                setOpcionesPlataforma(response.data);
+                console.log(response.data);
+                setError(null);
+            })
+            .catch((error) => {
+                (error.response && error.response.status === 404)
+                    ? setError("No hay plataformas que mostrar.")
+                    : setError("Hubo un problema al cargar las plataformas.");
+                setPlataforma([]);
+            });
+    }
+    //
+
     const fetchGameData = useCallback(() => {
+        console.log("clasificacion: ", clasificacion);
         const queryParams = new URLSearchParams({
             pagina,
+            clasificacion: clasificacion,
             texto: texto,
             plataforma: plataforma,
-            clasificacion: clasificacion,
         });
+        console.log(queryParams.toString());
         api.get(`/juegos?${queryParams.toString()}`)
             .then((response) => {
                 setJuegos(response.data.result);
@@ -50,14 +76,33 @@ function JuegoPage() {
     }
 
     return (
-        <div className="juego-page">
-            {/* Formulario de filtros */}
-            <form className="filter-form">
-                <input type="text" placeholder="Buscar por nombre" value={texto} onChange={(e) => setTexto(e.target.value)}/>
-                <input type="text" placeholder="Buscar por plataforma" value={plataforma} onChange={(e) => setPlataforma(e.target.value)}/>
-                <input type="text" placeholder="Clasificación (ATP, +13, +18)" value={clasificacion} onChange={(e) => setClasificacion(e.target.value)}/>
-            </form>
 
+        <>
+        <div className="juego-page">
+            <form className="filter-form">
+                {/* Formulario de filtros */}
+                <div className="filter-item">
+                    <span>Texto:</span>
+                    <input type="text" placeholder="Buscar por nombre" value={texto} onChange={(e) => setTexto(e.target.value)} />
+                </div>
+                {/* tengo que ver estilos para los select asi los muestro bien */}
+                <div className="filter-item">
+                    <span>Plataformas: </span>
+                    <select value={plataforma} onChange={(e) => setPlataforma(e.target.value)}>
+                        {opcionesPlataforma.map((opcion) => (
+                            <option key={opcion.id} value={opcion.nombre}>{opcion.nombre}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="filter-item">
+                    <span>Clasificación por Edad:</span>
+                    <select value={clasificacion} onChange={(e) => setClasificacion(e.target.value)}>
+                        {opcionesClasificacion.map((opcion) => (
+                            <option key={opcion} value={opcion}>{opcion}</option>
+                        ))}
+                    </select>
+                </div>
+            </form>
             {/* Tabla de juegos */}
             <table className="juego-table">
                 <thead>
@@ -68,8 +113,7 @@ function JuegoPage() {
                         <th>Plataforma</th>
                         <th>Calificación Promedio</th>
                         {checkSesion() &&
-                            <th>Calificar!</th>
-                        }
+                            <th>Calificar!</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -81,13 +125,12 @@ function JuegoPage() {
                             <td>{juego.nombre_plataforma}</td>
                             <td>{juego.calificacion_promedio}</td>
                             {checkSesion() &&
-                                <td><Link to={'/calificacion'}><button type="button" onClick={() => handleButton(juego.id_juego)}>Calificar!</button></Link></td>
-                            }
+                                <td><Link to={'/calificacion'}><button type="button" onClick={() => handleButton(juego.id_juego)}>Calificar!</button></Link></td>}
                         </tr>
                     ))}
                 </tbody>
             </table>
-            
+
             {/* Mensaje de error */}
             {error && <div className="error-message">{error}</div>}
 
@@ -95,9 +138,8 @@ function JuegoPage() {
             <PaginationButtonsComponent
                 paginaActual={pagina}
                 total={total}
-                onPageChange={setPagina}
-            />
-        </div>
+                onPageChange={setPagina} />
+        </div></>
     );
 }
 

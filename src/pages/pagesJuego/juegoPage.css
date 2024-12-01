@@ -5,18 +5,31 @@
     padding: 20px;
 }
 
-/* Estilo del formulario de filtros */
+/* Estilo general para el formulario */
+
 .filter-form {
     display: flex;
-    gap: 10px;
+    justify-content: center; /* Centra los filtros */
+    align-items: center;
     margin-bottom: 20px;
 }
 
-.filter-form input {
+.filter-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+  
+.filter-item span {
+    margin-right: 5px;
+  }
+
+select {
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    width: 150px;
 }
 
 /* Estilo de la tabla */
@@ -155,3 +168,4 @@
 .calificacion-form button:hover {
     background-color: #0056b3;
 }
+

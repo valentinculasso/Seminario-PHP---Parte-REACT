@@ -1,5 +1,6 @@
 import React, { useState , useEffect} from 'react';
 import api, { setAuthHeader } from '../axiosConfig';
+import { useNavigate } from 'react-router-dom';
 import '../styles/calificacionPage.css';
 
 function CalificacionPage() {
@@ -8,9 +9,8 @@ function CalificacionPage() {
     const [calificacionExistente, setCalificacionExistente] = useState(null);
     const [listaCalificacion, setListaCalificacion] = useState([]);
     const [calificacionActual, setCalificacionActual] = useState(0);
-    //
-    const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         listCalification();
@@ -23,49 +23,35 @@ function CalificacionPage() {
     useEffect(() => {
         if (juegoID) {
             const calificacionExistente = listaCalificacion.find((calificacion) => calificacion.juego_id === juegoID);
-            setCalificacionExistente(calificacionExistente);
-            console.log(calificacionExistente);
-            if(calificacionExistente){
-                const calificacionAct = listaCalificacion.map((calificacion) => {
-                    if(calificacion.juegoID === juegoID){
-                        return(calificacion.estrellas);
-                    }
-                });
-                console.log(calificacionAct);
-                if(calificacionAct){
+            if (calificacionExistente) {
+                setCalificacionExistente(calificacionExistente);
+                console.log("Calificación existente: ", calificacionExistente);
+                const calificacionAct = calificacionExistente.estrellas;
+                if (calificacionAct !== undefined) {
+                    console.log("Calificación actual: ", calificacionAct);
                     setCalificacionActual(calificacionAct);
                 }
+            } else {
+                setCalificacionExistente(null); //para manejar estados claros en caso de no encontrar calificación.
+                setCalificacionActual(null);
             }
-            setError(null);
         }
-    }, [listaCalificacion, juegoID]); // Aca el juegoID seria absurdo porque si estoy en la pagina de calificacion en teoria nunca va a cambiar
-
-    useEffect(() => {
-        if (successMessage) {
-            const timer = setTimeout(() => setSuccessMessage(''), 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [successMessage]);
+    }, [listaCalificacion, juegoID]);
 
     const listCalification = () => {
         setAuthHeader();
         api.get('/calificaciones')
             .then((response) => {
                 setListaCalificacion(response.data);
-                setError(null);
             })
             .catch(() => {
-                setError('No se pudieron cargar las calificaciones del usuario.');
+                window.alert('No se pudieron cargar las calificaciones del usuario.');
             });
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setAuthHeader();
-        if ( !juegoID || estrellas < 1 || estrellas > 5) {
-            setError('Por favor, completa todos los campos correctamente.');
-            return;
-        }
         
         const request = calificacionExistente
             ? api.put(`/calificacion/${calificacionExistente.id}`, { juego_id: juegoID, estrellas: estrellas })
@@ -73,16 +59,16 @@ function CalificacionPage() {
 
         request
             .then(() => {
-                setSuccessMessage('Calificación enviada correctamente!');
-                setError(null);
                 setEstrellas(0);
                 listCalification();
+                window.alert('¡Calificación enviada correctamente!');
+                navigate('/');
             })
-            .catch(() => {
-                setError('Hubo un error al enviar la calificación.');
-                setJuegoID('');
+            .catch((err) => {
+                if (err.response && err.response.status === 404) {
+                    window.alert('Se ha ingresado la misma calificacion! Ingrese un puntaje distinto');
+                }
                 setEstrellas(0);
-                setSuccessMessage('');
             });
     };
 
@@ -93,27 +79,19 @@ function CalificacionPage() {
         api.delete(`/calificacion/${calificacionID}`)
             .then(() => {
                 setEstrellas(0);
-                setSuccessMessage('Calificación eliminada correctamente!');
                 setCalificacionExistente(null);
-                setError(null);
                 listCalification();
+                window.alert('Calificación eliminada correctamente!');
+                navigate('/');
             })
             .catch(() => {
-                setError('No se pudo eliminar la calificación.');
-                setJuegoID('');
                 setEstrellas(0);
-                setSuccessMessage('');
             });
     };
     
-
     return (
         <div className="calificacion-page">
             <h1 className="titulo">Calificar Juego</h1>
-            
-            {/* Mostrar mensaje de éxito o error */}
-            {successMessage && <div className="success-message">{successMessage}</div>}
-            {error && <div className="error-message">{error}</div>}
 
             {/* Formulario de calificación */}
             <form onSubmit={handleSubmit} className="calificacion-form">           
@@ -122,8 +100,8 @@ function CalificacionPage() {
                     <h3>Ingrese la calificacion: (1-5 Estrellas):</h3>
                     <input 
                         type="number" 
-                        min="1" 
-                        max="5" 
+                        min="1"
+                        max="5"
                         value={estrellas}
                         onChange={(e) => setEstrellas(e.target.value)} 
                         required 
