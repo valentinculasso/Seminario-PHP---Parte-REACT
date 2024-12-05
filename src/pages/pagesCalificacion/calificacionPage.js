@@ -9,6 +9,7 @@ function CalificacionPage() {
     const [calificacionExistente, setCalificacionExistente] = useState(null);
     const [listaCalificacion, setListaCalificacion] = useState([]);
     const [calificacionActual, setCalificacionActual] = useState(0);
+    const [errorCalificacionesLogeado, setErrorCalificacionesLogeado] = useState('');
 
     const navigate = useNavigate();
 
@@ -25,15 +26,15 @@ function CalificacionPage() {
             const calificacionExistente = listaCalificacion.find((calificacion) => calificacion.juego_id === juegoID);
             if (calificacionExistente) {
                 setCalificacionExistente(calificacionExistente);
-                console.log("Calificación existente: ", calificacionExistente);
                 const calificacionAct = calificacionExistente.estrellas;
-                if (calificacionAct !== undefined) {
-                    console.log("Calificación actual: ", calificacionAct);
+                if (calificacionAct) {
                     setCalificacionActual(calificacionAct);
                 }
+                setErrorCalificacionesLogeado('');
             } else {
-                setCalificacionExistente(null); //para manejar estados claros en caso de no encontrar calificación.
+                setCalificacionExistente(null);
                 setCalificacionActual(null);
+                setErrorCalificacionesLogeado('No se pudieron cargar las calificaciones del usuario.');
             }
         }
     }, [listaCalificacion, juegoID]);
@@ -45,7 +46,7 @@ function CalificacionPage() {
                 setListaCalificacion(response.data);
             })
             .catch(() => {
-                window.alert('No se pudieron cargar las calificaciones del usuario.');
+                setErrorCalificacionesLogeado('No se pudieron cargar las calificaciones del usuario.');
             });
     }
 
@@ -61,6 +62,7 @@ function CalificacionPage() {
             .then(() => {
                 setEstrellas(0);
                 listCalification();
+                setErrorCalificacionesLogeado('');
                 window.alert('¡Calificación enviada correctamente!');
                 navigate('/');
             })
@@ -79,6 +81,7 @@ function CalificacionPage() {
         api.delete(`/calificacion/${calificacionID}`)
             .then(() => {
                 setEstrellas(0);
+                setErrorCalificacionesLogeado('No se pudieron cargar las calificaciones del usuario.');
                 setCalificacionExistente(null);
                 listCalification();
                 window.alert('Calificación eliminada correctamente!');
@@ -96,7 +99,9 @@ function CalificacionPage() {
             {/* Formulario de calificación */}
             <form onSubmit={handleSubmit} className="calificacion-form">           
                 <div>
-                    <h3>Puntaje actual: {calificacionActual}</h3>
+                    {errorCalificacionesLogeado
+                        ? <h3>Puntaje actual: El juego aun no se ha puntuado.</h3>
+                        : <h3>Puntaje actual: {calificacionActual}</h3>}
                     <h3>Ingrese la calificacion: (1-5 Estrellas):</h3>
                     <input 
                         type="number" 

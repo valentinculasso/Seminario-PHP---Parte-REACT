@@ -27,7 +27,7 @@ function RegistroPage() {
             setError("El nombre de usuario debe tener entre 6 y 20 caracteres alfanuméricos.");
             return;
         }
-        if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/g.test(password)) {
+        if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\W_]).{8,}$/g.test(password)) {
             setError("La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales.");
             return;
         }

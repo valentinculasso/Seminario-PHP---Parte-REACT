@@ -14,6 +14,10 @@ function DetalleJuego() {
     const [juego, setJuego] = useState(null);
     const [errorJuego, setErrorJuego] = useState(null);
     const [errorCalificaciones, setErrorCalificaciones] = useState(null);
+    const [errorCalificacionesLogeado, setErrorCalificacionesLogeado] = useState(null);
+    // Estado para manejar nombres
+    const [userNames, setUserNames] = useState({}); // {id: "1" , nombre: "valentin"}
+    const [errorUser, setErrorUser] = useState(null);
 
     useEffect(() => {
         fetchGame(id);
@@ -51,10 +55,10 @@ function DetalleJuego() {
         
         1       3           1          1         true
         2       5           2          2         false
-        
     */
 
     const fetchGame = (id) => {
+        console.log("el id del juego que manejo", id);
         api.get(`/juegos/${id}`)
             .then((response) => {
                 setJuego(response.data);
@@ -70,10 +74,10 @@ function DetalleJuego() {
         api.get('/calificaciones')
             .then((response) => {
                 setListaCalificacion(response.data);
-                setErrorCalificaciones(null);
+                setErrorCalificacionesLogeado(null);
             })
             .catch(() => {
-                setErrorCalificaciones('No se pudieron cargar las calificaciones del usuario logeado.');
+                setErrorCalificacionesLogeado('No se pudieron cargar las calificaciones del usuario logeado.');
             });
     };
 
@@ -97,6 +101,21 @@ function DetalleJuego() {
                     setErrorCalificaciones('No se pudieron cargar las calificaciones.');
                 }
             });
+    };
+
+    const fetchUser = (id) => {
+        if (!userNames[id]) {
+            api.get(`/usuario/${id}`)
+                .then((response) => {
+                    setUserNames((prev) => ({
+                        ...prev, [id]: response.data.nombre_usuario,
+                    }))
+                    setErrorUser(null);
+                })
+                .catch(() => {
+                    setErrorUser("Hubo un problema al cargar los datos del usuario.");
+                });
+        }
     };
 
     if (errorJuego) return <div className="detalle-juego-container error-message">{errorJuego}</div>;
@@ -140,6 +159,10 @@ function DetalleJuego() {
                             <span className="detalle-juego-label">Calificacion promedio:</span> {juego.calificacion_promedio}
                         </li>
                         <li>
+                            {console.log(localStorage.getItem('plataformas'))}
+                            <span className="detalle-juego-label">Plataformas: </span> {localStorage.getItem('plataformas')}
+                        </li>
+                        <li>
                             <span className="detalle-juego-label">Lista de calificaciones:</span>
                             {errorCalificaciones ? (
                                 <div className="error-message">{errorCalificaciones}</div>
@@ -156,17 +179,26 @@ function DetalleJuego() {
                                         </thead>
                                         <tbody>
                                             {listaAllCalificacion.length > 0 ? (
-                                                listaAllCalificacion.map((calificacion) => (
-                                                    <tr
-                                                        key={calificacion.id}
-                                                        className={calificacion.esDelUsuario ? "highlight-row" : ""}
-                                                    >
-                                                        <td>{calificacion.id}</td>
-                                                        <td>{calificacion.estrellas}</td>
-                                                        <td>{checkSesion() ? localStorage.getItem('username') : calificacion.usuario_id}</td>
-                                                        <td>{calificacion.juego_id}</td>
-                                                    </tr>
-                                                ))
+                                                listaAllCalificacion.map((calificacion) => {
+                                                    fetchUser(calificacion.usuario_id);
+                                                    return (
+                                                        <tr
+                                                            key={calificacion.id}
+                                                            className={calificacion.esDelUsuario ? "highlight-row" : ""}
+                                                        >
+                                                            <td>{calificacion.id}</td>
+                                                            <td>{calificacion.estrellas}</td>
+                                                            <td>
+                                                                {checkSesion() 
+                                                                ? calificacion.usuario_id === localStorage.getItem('id')
+                                                                        ? localStorage.getItem('username')
+                                                                        : userNames[calificacion.usuario_id]
+                                                                : calificacion.usuario_id}
+                                                            </td>
+                                                            <td>{calificacion.juego_id}</td>
+                                                        </tr>
+                                                    );
+                                                })
                                             ) : (
                                                 <tr>
                                                     <td colSpan="4" className="no-calificaciones">
