@@ -15,8 +15,8 @@ function JuegoPage() {
     const [clasificacion, setClasificacion] = useState('');
     //
     const opcionesClasificacion = ['', 'ATP', '+13', '+18'];
-    const [opcionesPlataforma, setOpcionesPlataforma] = useState([{id: '0', nombre: ''}]);
-    
+    const [opcionesPlataforma, setOpcionesPlataforma] = useState([{id: "0", nombre: ""}]);
+
     useEffect(() => {
         setPagina(1);
     }, [texto, plataforma, clasificacion]);
@@ -32,8 +32,8 @@ function JuegoPage() {
             .then((response) => {
                 if(opcionesPlataforma.length < 6){
                     setOpcionesPlataforma([...opcionesPlataforma, ...response.data]);
+                    setError(null);
                 }
-                setError(null);
             })
             .catch((error) => {
                 (error.response && error.response.status === 404)
@@ -45,13 +45,13 @@ function JuegoPage() {
     //
 
     const fetchGameData = useCallback(() => {
+        console.log("clasificacion: ", clasificacion);
         const queryParams = new URLSearchParams({
             pagina,
             clasificacion: clasificacion,
             texto: texto,
             plataforma: plataforma,
         });
-        console.log(queryParams.toString());
         api.get(`/juegos?${queryParams.toString()}`)
             .then((response) => {
                 setJuegos(response.data.result);
@@ -76,6 +76,7 @@ function JuegoPage() {
     }
 
     return (
+
         <>
         <div className="juego-page">
             <form className="filter-form">
@@ -109,7 +110,7 @@ function JuegoPage() {
                         <th>Id del juego</th>
                         <th>Nombre del juego</th>
                         <th>Clasificacion por edad</th>
-                        <th>Plataformas</th>
+                        <th>Plataforma</th>
                         <th>Calificación Promedio</th>
                         {checkSesion() &&
                             <th>Calificar!</th>}
@@ -119,8 +120,7 @@ function JuegoPage() {
                     {juegos.map((juego) => (
                         <tr key={juego.id_juego}>
                             <td>{juego.id_juego}</td>
-                            {console.log("Plataforma actual: ", juego.plataformas)}
-                            <td><Link to={`/juegos/${juego.id_juego}`} onClick={ () => localStorage.setItem('plataformas', juego.plataformas)}>{juego.nombre_juego}</Link></td>
+                            <td><Link to={`/juegos/${juego.id_juego}`}>{juego.nombre_juego}</Link></td>
                             <td>{juego.clasificacion_edad}</td>
                             <td>{juego.plataformas}</td>
                             <td>{juego.calificacion_promedio}</td>

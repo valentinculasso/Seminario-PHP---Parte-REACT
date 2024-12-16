@@ -14,7 +14,7 @@ function AltaJuego() {
     const [successMessage, setSuccessMessage] = useState('');
     const [plataforma, setPlataforma] = useState([]);
     const navigate = useNavigate();
-    // ABAJO CHECKBOX
+    // ABAJO ESTADO DE CHECKBOX
     const [seleccionados, setSeleccionados] = useState([]);
 
     const opcionesClasificacion = [' ', 'ATP', '+13', '+18'];

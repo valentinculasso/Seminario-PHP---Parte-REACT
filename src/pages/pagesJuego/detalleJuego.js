@@ -15,9 +15,8 @@ function DetalleJuego() {
     const [errorJuego, setErrorJuego] = useState(null);
     const [errorCalificaciones, setErrorCalificaciones] = useState(null);
     const [errorCalificacionesLogeado, setErrorCalificacionesLogeado] = useState(null);
-    // Estado para manejar nombres
-    const [userNames, setUserNames] = useState({}); // {id: "1" , nombre: "valentin"}
-    const [errorUser, setErrorUser] = useState(null);
+    const [NombresUsuario, setNombresUsuario] = useState({});
+    const [Erroruser, setErrorUser] = useState(null);
 
     useEffect(() => {
         fetchGame(id);
@@ -55,10 +54,10 @@ function DetalleJuego() {
         
         1       3           1          1         true
         2       5           2          2         false
+        
     */
 
     const fetchGame = (id) => {
-        console.log("el id del juego que manejo", id);
         api.get(`/juegos/${id}`)
             .then((response) => {
                 setJuego(response.data);
@@ -77,7 +76,7 @@ function DetalleJuego() {
                 setErrorCalificacionesLogeado(null);
             })
             .catch(() => {
-                setErrorCalificacionesLogeado('No se pudieron cargar las calificaciones del usuario logeado.');
+                setErrorCalificacionesLogeado('El usuario logeado no tiene calificaciones.');
             });
     };
 
@@ -103,17 +102,15 @@ function DetalleJuego() {
             });
     };
 
-    const fetchUser = (id) => {
-        if (!userNames[id]) {
+    const fetchUser= (id) => {
+        if(!NombresUsuario[id]){
             api.get(`/usuario/${id}`)
                 .then((response) => {
-                    setUserNames((prev) => ({
-                        ...prev, [id]: response.data.nombre_usuario,
-                    }))
+                    setNombresUsuario((prev) => ({...prev, [id]: response.data.nombre_usuario}));
                     setErrorUser(null);
                 })
                 .catch(() => {
-                    setErrorUser("Hubo un problema al cargar los datos del usuario.");
+                    setErrorUser("Hubo un problema al cargar el usuario.");
                 });
         }
     };
@@ -131,12 +128,6 @@ function DetalleJuego() {
                     </div>
 
                     <ul className="detalle-juego-info">
-                        <li>
-                            <span className="detalle-juego-label">Nombre del juego:</span> {juego.nombre}
-                        </li>
-                        <li>
-                            <span className="detalle-juego-label">ID del juego:</span> {juego.id}
-                        </li>
                         <li>
                             <span className="detalle-juego-label">Descripcion:</span> {juego.descripcion}
                         </li>
@@ -159,8 +150,7 @@ function DetalleJuego() {
                             <span className="detalle-juego-label">Calificacion promedio:</span> {juego.calificacion_promedio}
                         </li>
                         <li>
-                            {console.log(localStorage.getItem('plataformas'))}
-                            <span className="detalle-juego-label">Plataformas: </span> {localStorage.getItem('plataformas')}
+                            <span className="detalle-juego-label">Plafaformas: </span> {juego.plataformas}
                         </li>
                         <li>
                             <span className="detalle-juego-label">Lista de calificaciones:</span>
@@ -178,7 +168,7 @@ function DetalleJuego() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {listaAllCalificacion.length > 0 ? (
+                                            {listaAllCalificacion.length > 0 && (
                                                 listaAllCalificacion.map((calificacion) => {
                                                     fetchUser(calificacion.usuario_id);
                                                     return (
@@ -188,27 +178,19 @@ function DetalleJuego() {
                                                         >
                                                             <td>{calificacion.id}</td>
                                                             <td>{calificacion.estrellas}</td>
-                                                            <td>
-                                                                {checkSesion() 
+                                                            <td>{checkSesion() 
                                                                 ? calificacion.usuario_id === localStorage.getItem('id')
                                                                         ? localStorage.getItem('username')
-                                                                        : userNames[calificacion.usuario_id]
+                                                                        : NombresUsuario[calificacion.usuario_id]
                                                                 : calificacion.usuario_id}
                                                             </td>
                                                             <td>{calificacion.juego_id}</td>
                                                         </tr>
                                                     );
                                                 })
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="4" className="no-calificaciones">
-                                                        No hay calificaciones para este juego.
-                                                    </td>
-                                                </tr>
                                             )}
                                         </tbody>
                                     </table>
-
                                     {/* Controles de paginación */}
                                     <PaginationButtonsComponent
                                         paginaActual={pagina}
