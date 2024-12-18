@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api, { setAuthHeader, checkSesion } from '../axiosConfig';
+import { useLocation } from 'react-router-dom';
 import PaginationButtonsComponent from '../../components/paginationButtonsComponent';
 import '../styles/juegoPage.css';
 
@@ -16,6 +17,16 @@ function JuegoPage() {
     //
     const opcionesClasificacion = ['', 'ATP', '+13', '+18'];
     const [opcionesPlataforma, setOpcionesPlataforma] = useState([{id: "0", nombre: ""}]);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        setTexto('');
+        setPlataforma('');
+        setClasificacion('');
+        setPagina(1);
+    }, [location]);
+
 
     useEffect(() => {
         setPagina(1);
@@ -52,6 +63,9 @@ function JuegoPage() {
             texto: texto,
             plataforma: plataforma,
         });
+
+        console.log("URL: ", queryParams.toString());
+
         api.get(`/juegos?${queryParams.toString()}`)
             .then((response) => {
                 setJuegos(response.data.result);
@@ -76,7 +90,6 @@ function JuegoPage() {
     }
 
     return (
-
         <>
         <div className="juego-page">
             <form className="filter-form">
@@ -107,7 +120,6 @@ function JuegoPage() {
             <table className="juego-table">
                 <thead>
                     <tr>
-                        <th>Id del juego</th>
                         <th>Nombre del juego</th>
                         <th>Clasificacion por edad</th>
                         <th>Plataforma</th>
@@ -119,7 +131,6 @@ function JuegoPage() {
                 <tbody>
                     {juegos.map((juego) => (
                         <tr key={juego.id_juego}>
-                            <td>{juego.id_juego}</td>
                             <td><Link to={`/juegos/${juego.id_juego}`}>{juego.nombre_juego}</Link></td>
                             <td>{juego.clasificacion_edad}</td>
                             <td>{juego.plataformas}</td>

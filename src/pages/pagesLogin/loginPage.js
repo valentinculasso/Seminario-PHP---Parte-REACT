@@ -42,12 +42,13 @@ function LoginPage() {
                 navigate('/');
             })
             .catch(() => {
-                setError("Credenciales incorrectas. Intenta de nuevo.");
+                setError("El nombre de usuario no existe o la constraseña es incorrecta. Intenta de nuevo.");
             });
     };
     
     return (
         <div className="login-page">
+            {error && <div className="error-message">{error}</div>}
             <h2>Inicio de Sesión</h2>
             <form onSubmit={handleLogin} className="login-form">
                 <div>
@@ -68,7 +69,6 @@ function LoginPage() {
                 </div>
                 <button type="submit">Iniciar Sesión</button>
             </form>
-            {error && <div className="error-message">{error}</div>}
         </div>
     );
 }

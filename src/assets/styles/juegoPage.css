@@ -1,0 +1,171 @@
+.juego-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Estilo general para el formulario */
+
+.filter-form {
+    display: flex;
+    justify-content: center; /* Centra los filtros */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+  
+.filter-item span {
+    margin-right: 5px;
+  }
+
+select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+}
+
+/* Estilo de la tabla */
+.juego-table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.juego-table th, .juego-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.juego-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.juego-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Controles de paginación */
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pagination-button {
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: blue;
+}
+
+.pagination-button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 16px;
+}
+
+/* Estilo para el mensaje de error */
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Estilo para el mensaje de error */
+.success-message {
+    color: white;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* ----------------------- */
+
+.calificacion-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 450px;
+    padding: 0px;
+    background-color: white;
+}
+
+.titulo {
+    font-size: 2.0rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Arial', sans-serif;
+}
+
+.calificacion-form {
+    width: 75%;
+    max-width: 500px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calificacion-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.calificacion-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.calificacion-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.calificacion-form button:hover {
+    background-color: #0056b3;
+}
+
